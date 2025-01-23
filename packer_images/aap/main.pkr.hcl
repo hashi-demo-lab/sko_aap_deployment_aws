@@ -30,6 +30,7 @@ source "amazon-ebs" "img" {
   region        = var.region
   source_ami    = data.amazon-ami.rhel9.id
   ssh_username  = var.ssh_username
+  associate_public_ip_address = true
 }
 
 build {
