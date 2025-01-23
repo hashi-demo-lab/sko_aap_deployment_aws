@@ -12,7 +12,7 @@ variable "ami_owner" {
 
 variable "ami_filter" {
   default = {
-    name                = "RHEL-9.*.*_HVM-*-x86_64-82-Hourly2-GP3"
+    name                = "RHEL-9.*.*_HVM-*-x86_64-0-Hourly2-GP3"
     root-device-type    = "ebs"
     virtualization-type = "hvm"
   }
@@ -26,7 +26,7 @@ variable "instance_type" {
   type        = string
 
   validation {
-    condition     = contains(["t2.small", "t2.medium", "t2.large"], var.instance_type)
+    condition     = contains(["t2.small", "t2.medium", "t2.large", "t3.small"], var.instance_type)
     error_message = "The instance type must be one of: t2.small, t2.medium, t2.large.  The instance type t2.micro times out."
   }
 }
@@ -40,5 +40,10 @@ variable "region" {
 variable "ssh_username" {
   default     = "ec2-user"
   description = "The SSH username to use for the builder"
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "The VPC ID to use for the builder"
   type        = string
 }
