@@ -1,7 +1,7 @@
 // Example file: rename to infrastructure_db.tfvars and edit as needed
 
 // Common infrastucture
-infrastructure_region = "us-east-1"
+infrastructure_region = "ap-southeast-2"
 
 // Database
 infrastructure_db_username = ansible
@@ -16,3 +16,4 @@ infrastructure_db_db_instance_class = db.m5d.xlarge
 infrastructure_db_storage_type = io1
 infrastructure_db_storage_iops = 5000
 infrastructure_db_allocated_storage = 100
+
