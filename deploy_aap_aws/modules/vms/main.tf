@@ -64,8 +64,8 @@ resource "terraform_data" "aap_subscription_manager" {
   provisioner "remote-exec" {
     inline = [ 
       "sudo subscription-manager register --username ${var.aap_red_hat_username} --password ${var.aap_red_hat_password} --auto-attach",
-      "sudo subscription-manager config --rhsm.manage_repos=1",
-      "yes | sudo dnf upgrade"
+      "sudo subscription-manager config --rhsm.manage_repos=1"#,
+      #"yes | sudo dnf upgrade"
       ]
   }
 }
