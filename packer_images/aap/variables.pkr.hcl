@@ -21,7 +21,7 @@ variable "ami_filter" {
 }
 
 variable "instance_type" {
-  default     = "t2.small"
+  default     = "t3.small"
   description = "The instance type to use for the builder"
   type        = string
 
