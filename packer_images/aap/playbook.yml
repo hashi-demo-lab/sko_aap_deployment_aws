@@ -1,0 +1,59 @@
+- name: Ansible Automation Platform
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update RHEL-based systems
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+        update_cache: true
+        update_only: true
+
+    - name: Register subscription for RHEL
+      when: ansible_os_family == 'RedHat'
+      community.general.redhat_subscription:
+        username: "{{ lookup('env', 'RHN_USERNAME') }}"
+        password: "{{ lookup('env', 'RHN_PASSWORD') }}"
+
+    - name: Enable repository management for RHEL
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.command:
+        cmd: subscription-manager config --rhsm.manage_repos=1
+      register: rhsm_manage_repos
+      changed_when: rhsm_manage_repos.rc != 0
+
+    - name: Install Ansible Automation Platform installer package for RHEL {{ ansible_distribution_major_version }}
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.dnf:
+        enablerepo: ansible-automation-platform-2.4-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
+        name: ansible-automation-platform-installer
+        state: present
+
+    - name: Install OpenJDK to support loading CA bundle
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.dnf:
+        name: java
+        state: present
+
+    - name: Download Amazon RDS CA bundle
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.get_url:
+        dest: /etc/pki/ca-trust/source/anchors/global-bundle.pem
+        mode: '0644'
+        url: https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+      register: aws_rds_ca_bundle_file
+
+    - name: Load Amazon RDS CA bundle
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.command:
+        cmd: "keytool -printcert -v -file {{ aws_rds_ca_bundle_file.dest }}"
+      register: aws_rds_ca_bundle
+      changed_when: aws_rds_ca_bundle.rc != 0
+
+    - name: Unregister subscription for RHEL
+      when: ansible_os_family == 'RedHat'
+      community.general.redhat_subscription:
+        state: absent
