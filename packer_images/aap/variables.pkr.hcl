@@ -32,7 +32,7 @@ variable "instance_type" {
 }
 
 variable "region" {
-  default     = "us-east-1"
+  default     = "ap-southeast-2"
   description = "The region to use for the builder"
   type        = string
 }

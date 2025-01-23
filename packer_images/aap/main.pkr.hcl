@@ -1,11 +1,11 @@
 packer {
   required_plugins {
     amazon = {
-      version = "~> 1.3"
+      version = "~> 1"
       source  = "github.com/hashicorp/amazon"
     }
     ansible = {
-      version = "~> 1.1"
+      version = "~> 1"
       source  = "github.com/hashicorp/ansible"
     }
   }
@@ -40,7 +40,7 @@ build {
     description = "Base RHEL 9 AMI with Ansible Automation Platform installer package preloaded."
 
     bucket_labels = {
-      owner   = "Dustin Dortch"
+      owner   = "SKO"
       os      = "RHEL"
       version = "9"
     }
