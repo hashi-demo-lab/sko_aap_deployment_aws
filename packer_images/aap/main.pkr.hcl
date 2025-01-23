@@ -61,7 +61,9 @@ build {
       "ANSIBLE_DEPRECATION_WARNINGS=False",
       "ANSIBLE_HOST_KEY_CHECKING=False",
       "ANSIBLE_NOCOLOR=True",
-      "ANSIBLE_NOCOWS=1"
+      "ANSIBLE_NOCOWS=1",
+      "RHN_USERNAME=${var.rhn_username}",
+      "RHN_PASSWORD=${var.rhn_password}"
     ]
 
     extra_arguments = [

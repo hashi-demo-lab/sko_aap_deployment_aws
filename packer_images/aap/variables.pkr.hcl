@@ -54,3 +54,13 @@ variable "subnet_id" {
   type        = string
   default = "subnet-032112892fee063e6"
 }
+
+variable "rhn_username" {
+  description = "The Red Hat Network username to use for the builder"
+  type        = string
+}
+
+variable "rhn_password" {
+  description = "The Red Hat Network password to use for the builder"
+  type        = string
+}
