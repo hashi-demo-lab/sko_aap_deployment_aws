@@ -2,6 +2,14 @@
 
 Builds an AMI using Packer and Ansible. This example uses RHEL 9 AMI as the base image and installs the Ansible Automation Platform installer package after updating the distribution.
 
+```
+packer init .
+```
+
+```
+packer build .
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
