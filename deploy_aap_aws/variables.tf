@@ -11,7 +11,7 @@ variable "deployment_id" {
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string
-  default = "ap-southeast-2"
+  default = "us-east-1"
 
   validation {
   condition = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
@@ -97,7 +97,7 @@ variable "infrastructure_db_password" {
 variable "infrastructure_controller_count" {
   description = "The number of ec2 instances for controller"
   type = number
-  default = 1
+  default = 0
 }
 
 variable "infrastructure_controller_instance_type" {
@@ -116,7 +116,7 @@ variable "infrastructure_controller_ami" {
 variable "infrastructure_eda_count" {
   description = "The number of EDA instances"
   type = number
-  default = "1"
+  default = "0"
 }
 
 variable "infrastructure_eda_instance_type" {
@@ -135,7 +135,7 @@ variable "infrastructure_eda_ami" {
 variable "infrastructure_execution_count" {
   description = "The number of execution instances"
   type = number
-  default = 1
+  default = 0
 }
 
 variable "infrastructure_execution_instance_type" {
@@ -153,7 +153,7 @@ variable "infrastructure_execution_ami" {
 variable "infrastructure_hub_count" {
   description = "The number of ec2 instances for hub"
   type = number
-  default = 1
+  default = 0
 }
 
 variable "infrastructure_hub_instance_type" {
