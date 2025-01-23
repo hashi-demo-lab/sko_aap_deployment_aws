@@ -99,7 +99,7 @@ Assuming that all variables are configured properly and your AWS account has per
 Initialize Terraform
 
 ```bash
-terraform init -upgrade
+terraform init -upgrade 
 ```
 
 Validate configuration

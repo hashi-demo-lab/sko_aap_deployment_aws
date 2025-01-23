@@ -5,12 +5,13 @@ variable "deployment_id" {
     condition = ((length(var.deployment_id) >= 2 && length(var.deployment_id)<=10) || length(var.deployment_id) == 0) && (can(regex("^[a-z]", var.deployment_id)) || var.deployment_id == "")
     error_message = "deployment_id length should be between 2-10 chars and should contain lower case alpha chars only"
   }
+  default = "skoaap"
 }
 
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string
-  default = "us-east-2"
+  default = "ap-southeast-2"
 
   validation {
   condition = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
@@ -45,7 +46,7 @@ variable "infrastructure_db_instance_class" {
 variable "infrastructure_db_engine_version" {
   description = "The database engine version to use"
   type = string
-  default = "13.12"
+  default = "13.18"
 }
 
 variable "infrastructure_db_multi_az" {
@@ -177,7 +178,7 @@ variable "infrastructure_ssh_public_key" {
   default = "~/.ssh/id_rsa.pub"
 }
 variable "aap_red_hat_username" {
-  description = "Red Hat account name that will be used for Subscription Management."
+  description = "Red Hat account name that will be used for Subscription Management. exmaple your username@hashicorp.com"
   type = string
 }
 
@@ -185,12 +186,14 @@ variable "aap_red_hat_password" {
   description = "Red Hat account password."
   type = string
   sensitive = true
+  
 }
 
 variable "aap_admin_password" {
   description = "The admin password to create for Ansible Automation Platform application."
   type = string
   sensitive = true
+  default = "Hashicorp123!"
 }
 
 variable "infrastructure_aap_installer_inventory_path" {
