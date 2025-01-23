@@ -46,4 +46,5 @@ variable "ssh_username" {
 variable "vpc_id" {
   description = "The VPC ID to use for the builder"
   type        = string
+  default = "vpc-0374a0be7101da63d"
 }

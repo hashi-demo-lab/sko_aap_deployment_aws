@@ -31,6 +31,7 @@ source "amazon-ebs" "img" {
   source_ami    = data.amazon-ami.rhel9.id
   ssh_username  = var.ssh_username
   associate_public_ip_address = true
+  subnet_id = "subnet-032112892fee063e6"
   vpc_id = var.vpc_id
 }
 
