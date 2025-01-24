@@ -9,7 +9,8 @@ variable "deployment_id" {
 }
 
 variable "vpc_id" {
-  
+  type = string
+  description = "The VPC ID to deploy the infrastructure output from prereqs"
 }
 
 variable "aws_region" {
@@ -107,7 +108,7 @@ variable "infrastructure_controller_count" {
 variable "infrastructure_controller_instance_type" {
   description = "Controller instance type"
   type = string
-  default = "m5a.xlarge"
+  default = "m7a.xlarge"
 }
 
 variable "infrastructure_controller_ami" {
@@ -126,7 +127,7 @@ variable "infrastructure_eda_count" {
 variable "infrastructure_eda_instance_type" {
   description = "The eda instance type"
   type = string
-  default = "m5a.xlarge"
+  default = "m7a.xlarge"
 }
 
 variable "infrastructure_eda_ami" {
