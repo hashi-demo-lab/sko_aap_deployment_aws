@@ -20,3 +20,9 @@ output "hcp_vault_root_token" {
   value       = module.vault-hcp.root_token
   sensitive   = true
 }
+
+output "aws_vpc_id" {
+  description = "AWS VPC ID"
+  value       = module.infra-aws.vpc_id
+  
+}
