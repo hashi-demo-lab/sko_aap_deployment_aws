@@ -46,13 +46,13 @@ variable "ssh_username" {
 variable "vpc_id" {
   description = "The VPC ID to use for the builder"
   type        = string
-  default = "vpc-0374a0be7101da63d"
+  default = "vpc-0aa9a632680f3ea78"
 }
 
 variable "subnet_id" {
   description = "The VPC ID to use for the builder"
   type        = string
-  default = "subnet-032112892fee063e6"
+  default = "subnet-09b7892c747632f6a"
 }
 
 variable "rhn_username" {

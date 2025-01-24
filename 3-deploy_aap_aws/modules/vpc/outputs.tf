@@ -16,3 +16,10 @@ output "infrastructure_sg_id" {
   description = "Security group name"
   value = aws_security_group.aap_infrastructure_sg.id
 }
+
+
+output "vpc_id" {
+  description = "AWS VPC ID"
+  value = aws_vpc.aap_infrastructure_vpc.id
+  
+}
