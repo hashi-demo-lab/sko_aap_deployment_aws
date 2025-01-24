@@ -37,11 +37,11 @@ resource "random_string" "deployment_id" {
 ########################################
 # VPC
 ########################################
-  # module "vpc" {
-  #   source = "./modules/vpc"
-  #   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  #   persistent_tags = local.persistent_tags
-  # }
+  module "vpc" {
+    source = "./modules/vpc"
+    deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+    persistent_tags = local.persistent_tags
+  }
 
   
 
