@@ -8,6 +8,10 @@ variable "deployment_id" {
   default = "skoaap"
 }
 
+variable "vpc_id" {
+  
+}
+
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string

@@ -20,17 +20,17 @@ output "hcp_vault_root_token" {
   value       = nonsensitive(module.vault-hcp.root_token)
 }
 
-output "aws_vpc_id" {
+output "vpc_id" {
   description = "AWS VPC ID"
   value       = module.infra-aws.vpc_id
 }
 
-output "aws_public_subnet_ids" {
+output "public_subnet_ids" {
   description = "AWS VPC ID"
   value       = module.infra-aws.public_subnet_ids
 }
 
-output "aws_private_subnet_ids" {
+output "private_subnet_ids" {
   description = "AWS VPC ID"
   value       = module.infra-aws.private_subnet_ids
 }
