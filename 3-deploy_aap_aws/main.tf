@@ -37,11 +37,11 @@ resource "random_string" "deployment_id" {
 ########################################
 # VPC
 ########################################
-  module "vpc" {
-    source = "./modules/vpc"
-    deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-    persistent_tags = local.persistent_tags
-  }
+  # module "vpc" {
+  #   source = "./modules/vpc"
+  #   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  #   persistent_tags = local.persistent_tags
+  # }
 
   
 
@@ -51,16 +51,20 @@ resource "random_string" "instance_name_suffix" {
   upper = false
   numeric = false
 }
+#replace with HCP Packer lookup
 
-data "aws_ami" "instance_ami" {
-  most_recent = true
-  owners = ["309956199498"] # Red Hat's account ID
 
-  filter {
-    name = "name"
-    values = ["RHEL-9.2.*_HVM-*"]
-  }
-}
+
+
+# data "aws_ami" "instance_ami" {
+#   most_recent = true
+#   owners = ["309956199498"] # Red Hat's account ID
+
+#   filter {
+#     name = "name"
+#     values = ["RHEL-9.2.*_HVM-*"]
+#   }
+# }
 
 resource "aws_key_pair" "admin" {
   key_name = "admin-key"

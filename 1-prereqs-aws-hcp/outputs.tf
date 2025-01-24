@@ -34,3 +34,13 @@ output "private_subnet_ids" {
   description = "AWS VPC ID"
   value       = module.infra-aws.private_subnet_ids
 }
+
+
+output "lab_commands" {
+  description = "lab command helpers"
+  value = {
+    "vault_login" = "export"
+    "vault_secrets" = "vault kv get secret/data/hello"
+  }
+  
+}
