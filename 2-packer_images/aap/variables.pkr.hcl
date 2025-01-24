@@ -21,12 +21,12 @@ variable "ami_filter" {
 }
 
 variable "instance_type" {
-  default     = "m5a.large"
+  default     = "m7a.large"
   description = "The instance type to use for the builder"
   type        = string
 
   validation {
-    condition     = contains(["t2.small", "t2.medium", "t2.large", "t3.small", "m5a.large"], var.instance_type)
+    condition     = contains(["t2.small", "t2.medium", "t2.large", "t3.small", "m5a.large","m7a.large"], var.instance_type)
     error_message = "The instance type must be one of: t2.small, t2.medium, t2.large.  The instance type t2.micro times out."
   }
 }
