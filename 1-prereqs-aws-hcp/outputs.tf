@@ -26,21 +26,21 @@ output "vpc_id" {
 }
 
 output "public_subnet_ids" {
-  description = "AWS VPC ID"
+  description = "AWS public subnet IDs"
   value       = module.infra-aws.public_subnet_ids
 }
 
 output "private_subnet_ids" {
-  description = "AWS VPC ID"
+  description = "AWS private subnet IDs"
   value       = module.infra-aws.private_subnet_ids
 }
 
 
-output "lab_commands" {
+output "packer_env_commands" {
   description = "lab command helpers"
-  value = {
-    "vault_login" = "export"
-    "vault_secrets" = "vault kv get secret/data/hello"
-  }
+  value = [
+    "export PKR_VAR_vpc_id='${module.infra-aws.vpc_id}'",
+    "export PKR_VAR_public_subnet_ids='${module.infra-aws.public_subnet_ids[0]}'",
+  ]
   
 }
