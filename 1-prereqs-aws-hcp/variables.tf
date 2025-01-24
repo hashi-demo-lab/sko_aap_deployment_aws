@@ -7,17 +7,19 @@ variable "deployment_name" {
 }
 
 // hashicorp cloud platform (hcp) variables
-
 variable "hcp_client_id" {
   description = "hcp client id"
   type        = string
-  default     = ""
 }
 
 variable "hcp_client_secret" {
   description = "hcp client secret"
   type        = string
-  default     = ""
+}
+
+variable "hcp_project_id" {
+  description = "hcp project id"
+  type        = string
 }
 
 variable "hcp_hvn_cidr" {
@@ -45,3 +47,4 @@ variable "aws_vpc_cidr" {
   type        = string
   default     = "10.200.0.0/16"
 }
+
