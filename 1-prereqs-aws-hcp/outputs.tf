@@ -40,7 +40,7 @@ output "packer_env_commands" {
   description = "lab command helpers"
   value = [
     "export PKR_VAR_vpc_id='${module.infra-aws.vpc_id}'",
-    "export PKR_VAR_public_subnet_ids='${module.infra-aws.public_subnet_ids[0]}'",
+    "export PKR_VAR_public_subnet_id='${module.infra-aws.public_subnet_ids[0]}'",
   ]
   
 }

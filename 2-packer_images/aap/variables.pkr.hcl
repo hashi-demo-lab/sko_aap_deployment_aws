@@ -49,7 +49,7 @@ variable "vpc_id" {
   default = "vpc-0becc7953acb3d5a8"
 }
 
-variable "subnet_id" {
+variable "public_subnet_id" {
   description = "The VPC ID to use for the builder"
   type        = string
   default = "subnet-0150d1a78761c56e9"
