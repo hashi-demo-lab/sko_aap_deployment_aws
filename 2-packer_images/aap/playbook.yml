@@ -4,6 +4,7 @@
   gather_facts: true
 
   tasks:
+
     - name: Update RHEL-based systems
       when: ansible_os_family == 'RedHat'
       ansible.builtin.dnf:
@@ -28,7 +29,7 @@
     - name: Install Ansible Automation Platform installer package for RHEL {{ ansible_distribution_major_version }}
       when: ansible_os_family == 'RedHat'
       ansible.builtin.dnf:
-        enablerepo: ansible-automation-platform-2.4-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
+        enablerepo: ansible-automation-platform-2.5-for-rhel-9-x86_64-rpms
         name: ansible-automation-platform-installer
         state: present
 
