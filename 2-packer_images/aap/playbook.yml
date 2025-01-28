@@ -4,7 +4,6 @@
   gather_facts: true
 
   tasks:
-    # disabled as LAB only , speed more important
     - name: Update RHEL-based systems
       when: ansible_os_family == 'RedHat'
       ansible.builtin.dnf:
