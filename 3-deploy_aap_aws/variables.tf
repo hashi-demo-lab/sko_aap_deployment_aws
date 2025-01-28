@@ -196,6 +196,13 @@ variable "infrastructure_hub_ami" {
   default = ""
 }
 
+variable "infrastructure_postgres_count" {
+  description = "The instance type of the RDS instance"
+  type = number
+  default = 1
+}
+
+
 variable "infrastructure_postgres_instance_type" {
   description = "The instance type of the RDS instance"
   type = string
@@ -259,5 +266,5 @@ variable "hcp_vault_public_fqdn" {
 variable "inventory_revision" {
   description = "The revision of the inventory file"
   type = string
-  default = "2"
+  default = "1"
 }

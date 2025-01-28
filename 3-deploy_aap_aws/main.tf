@@ -202,11 +202,10 @@ module "eda_vm" {
 module "postgres_vm" {
   source = "./modules/vms"
 
-  count = 1
   app_tag = "postgres"
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "postgres-${count.index + 1}-"
+  vm_name_prefix = "postgres-"
   instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
   instance_type = var.infrastructure_postgres_instance_type
   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
@@ -220,10 +219,14 @@ module "postgres_vm" {
 }
 
 
+locals {
+  postgres_vm_ip = module.postgres_vm.vm_private_ip
+}
+
 
 resource "terraform_data" "inventory" {
+  depends_on = [ module.postgres_vm, module.controller_vm ]
   for_each = { for host, instance in flatten(module.controller_vm[*].vm_public_ip): host => instance }
-  input = "${var.inventory_revision}-${each.key}"
   connection {
       type = "ssh"
       user = var.infrastructure_admin_username
@@ -234,7 +237,6 @@ resource "terraform_data" "inventory" {
     content = templatefile("${path.module}/templates/inventory.j2", { 
       aap_controller_hosts = module.controller_vm[*].vm_private_ip
       aap_gateway_hosts = module.gateway_vm[*].vm_private_ip
-      aap_ee_hosts = module.execution_vm[*].vm_private_ip
       aap_hub_hosts = module.hub_vm[*].vm_private_ip
       aap_eda_hosts = module.eda_vm[*].vm_private_ip
       aap_eda_allowed_hostnames = module.eda_vm[*].vm_public_ip
@@ -242,10 +244,7 @@ resource "terraform_data" "inventory" {
       infrastructure_db_password = var.infrastructure_db_password
       aap_red_hat_username = var.aap_red_hat_username
       aap_red_hat_password= var.aap_red_hat_password
-      aap_controller_db_host = module.postgres_vm[*].vm_private_ip
-      aap_gateway_db_host = module.postgres_vm[*].vm_private_ip
-      aap_hub_db_host = module.postgres_vm[*].vm_private_ip
-      aap_eda_db_host = module.postgres_vm[*].vm_private_ip
+      aap_postgres_db_host = local.postgres_vm_ip
       aap_admin_password = var.aap_admin_password
       infrastructure_admin_username = var.infrastructure_admin_username
     })
@@ -258,7 +257,7 @@ resource "terraform_data" "inventory" {
       aap_hub_hosts = module.hub_vm[*].vm_private_ip
       aap_eda_hosts = module.eda_vm[*].vm_private_ip
       aap_gateway_hosts = module.gateway_vm[*].vm_private_ip
-      aap_postgres_hosts = module.postgres_vm[*].vm_private_ip
+      aap_postgres_hosts = [module.postgres_vm.vm_private_ip]
       infrastructure_admin_username = var.infrastructure_admin_username
     })
     destination = "/home/${var.infrastructure_admin_username}/.ssh/config"
