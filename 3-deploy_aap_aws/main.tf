@@ -47,37 +47,37 @@ resource "aws_key_pair" "admin" {
 ########################################
 # RDS Instance
 ########################################
-module "rds" {
-  source = "./modules/rds"
+# module "rds" {
+#   source = "./modules/rds"
 
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  allocated_storage = var.infrastructure_db_allocated_storage
-  allow_major_version_upgrade = var.infrastructure_db_allow_major_version_upgrade
-  auto_minor_version_upgrade = var.infrastructure_db_auto_minor_version_upgrade
-  engine_version = var.infrastructure_db_engine_version
-  instance_class = var.infrastructure_db_instance_class
-  multi_az = var.infrastructure_db_multi_az
-  db_sng_description =  "Ansible Automation Platform Subnet Group"
-  db_sng_name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-  db_sng_subnets = var.private_subnet_ids #this should be private subnet - to fix + secyurity groups
-  db_sng_tags = merge(
-    {
-      Name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-    },
-    local.persistent_tags
-  ) 
-  skip_final_snapshot = true
-  storage_iops = var.infrastructure_db_storage_iops
-  storage_encrypted = var.infrastructure_db_storage_encrypted
-  storage_type = var.infrastructure_db_storage_type
-  username = var.infrastructure_db_username
-  password = var.infrastructure_db_password
-  persistent_tags = local.persistent_tags
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  infrastructure_hub_count = var.infrastructure_hub_count
-  infrastructure_eda_count = var.infrastructure_eda_count
-  infrastructure_gateway_count = var.infrastructure_gateway_count
-}
+#   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+#   allocated_storage = var.infrastructure_db_allocated_storage
+#   allow_major_version_upgrade = var.infrastructure_db_allow_major_version_upgrade
+#   auto_minor_version_upgrade = var.infrastructure_db_auto_minor_version_upgrade
+#   engine_version = var.infrastructure_db_engine_version
+#   instance_class = var.infrastructure_db_instance_class
+#   multi_az = var.infrastructure_db_multi_az
+#   db_sng_description =  "Ansible Automation Platform Subnet Group"
+#   db_sng_name = "aap-infrastructure-${var.deployment_id}-subnet-group"
+#   db_sng_subnets = var.private_subnet_ids #this should be private subnet - to fix + secyurity groups
+#   db_sng_tags = merge(
+#     {
+#       Name = "aap-infrastructure-${var.deployment_id}-subnet-group"
+#     },
+#     local.persistent_tags
+#   ) 
+#   skip_final_snapshot = true
+#   storage_iops = var.infrastructure_db_storage_iops
+#   storage_encrypted = var.infrastructure_db_storage_encrypted
+#   storage_type = var.infrastructure_db_storage_type
+#   username = var.infrastructure_db_username
+#   password = var.infrastructure_db_password
+#   persistent_tags = local.persistent_tags
+#   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
+#   infrastructure_hub_count = var.infrastructure_hub_count
+#   infrastructure_eda_count = var.infrastructure_eda_count
+#   infrastructure_gateway_count = var.infrastructure_gateway_count
+# }
 
 ########################################
 # Controller VM 
@@ -196,6 +196,31 @@ module "eda_vm" {
   aap_red_hat_password = var.aap_red_hat_password
 }
 
+########################################
+# Postgres VM
+########################################
+module "postgres_vm" {
+  source = "./modules/vms"
+
+  count = 1
+  app_tag = "postgres"
+  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix = random_string.instance_name_suffix.result
+  vm_name_prefix = "postgres-${count.index + 1}-"
+  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_type = var.infrastructure_postgres_instance_type
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id = var.public_subnet_ids[0]
+  key_pair_name = aws_key_pair.admin.key_name
+  persistent_tags = local.persistent_tags
+  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
+  infrastructure_admin_username = var.infrastructure_admin_username
+  aap_red_hat_username = var.aap_red_hat_username
+  aap_red_hat_password = var.aap_red_hat_password
+}
+
+
+
 resource "terraform_data" "inventory" {
   for_each = { for host, instance in flatten(module.controller_vm[*].vm_public_ip): host => instance }
   input = "${var.inventory_revision}-${each.key}"
@@ -217,10 +242,10 @@ resource "terraform_data" "inventory" {
       infrastructure_db_password = var.infrastructure_db_password
       aap_red_hat_username = var.aap_red_hat_username
       aap_red_hat_password= var.aap_red_hat_password
-      aap_controller_db_host = module.rds.infrastructure_controller_rds_hostname
-      aap_gateway_db_host = module.rds.infrastructure_gateway_rds_hostname
-      aap_hub_db_host = module.rds.infrastructure_hub_rds_hostname
-      aap_eda_db_host = module.rds.infrastructure_eda_rds_hostname
+      aap_controller_db_host = module.postgres_vm[*].vm_private_ip
+      aap_gateway_db_host = module.postgres_vm[*].vm_private_ip
+      aap_hub_db_host = module.postgres_vm[*].vm_private_ip
+      aap_eda_db_host = module.postgres_vm[*].vm_private_ip
       aap_admin_password = var.aap_admin_password
       infrastructure_admin_username = var.infrastructure_admin_username
     })
@@ -233,6 +258,7 @@ resource "terraform_data" "inventory" {
       aap_hub_hosts = module.hub_vm[*].vm_private_ip
       aap_eda_hosts = module.eda_vm[*].vm_private_ip
       aap_gateway_hosts = module.gateway_vm[*].vm_private_ip
+      aap_postgres_hosts = module.postgres_vm[*].vm_private_ip
       infrastructure_admin_username = var.infrastructure_admin_username
     })
     destination = "/home/${var.infrastructure_admin_username}/.ssh/config"

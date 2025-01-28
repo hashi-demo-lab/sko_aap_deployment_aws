@@ -195,6 +195,13 @@ variable "infrastructure_hub_ami" {
   type = string
   default = ""
 }
+
+variable "infrastructure_postgres_instance_type" {
+  description = "The instance type of the RDS instance"
+  type = string
+  default = "m7a.xlarge"
+}
+
 variable "infrastructure_ssh_private_key" {
   description = "Private ssh key file path."
   type = string

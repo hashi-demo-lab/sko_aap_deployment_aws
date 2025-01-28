@@ -13,9 +13,9 @@ output "vpc_id" {
   value = var.vpc_id
 }
 
-output "database_module_outputs" {
+output "postgres_module_outputs" {
   description = "Database outputs"
-  value = module.rds
+  value = module.postgres_vm
 }
 
 output "controller_vm_module_outputs" {
