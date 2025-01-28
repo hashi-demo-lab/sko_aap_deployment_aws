@@ -16,7 +16,7 @@ variable "vpc_id" {
 variable "aws_vpc_cidr" {
   type = string
   description = "The CIDR block for the VPC"
-  default = "10.219.255.0/24"
+  default = "10.200.0.0/16"
 }
 
 variable "public_subnet_ids" {
@@ -112,7 +112,7 @@ variable "infrastructure_db_password" {
   description = "Database instance password"
   type = string
   sensitive = true
-  default = "changeme"
+  default = "Hashicorp123!"
 }
 
 # Controller variables

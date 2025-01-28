@@ -59,7 +59,7 @@ module "rds" {
   multi_az = var.infrastructure_db_multi_az
   db_sng_description =  "Ansible Automation Platform Subnet Group"
   db_sng_name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-  db_sng_subnets = var.public_subnet_ids #this should be private subnet - to fix + secyurity groups
+  db_sng_subnets = var.private_subnet_ids #this should be private subnet - to fix + secyurity groups
   db_sng_tags = merge(
     {
       Name = "aap-infrastructure-${var.deployment_id}-subnet-group"
