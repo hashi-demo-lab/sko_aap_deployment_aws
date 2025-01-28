@@ -224,3 +224,15 @@ variable "infrastructure_aap_installer_inventory_path" {
   default = "/home/ec2-user/inventory_aws"
   type = string
 }
+
+variable "hcp_channel" {
+  description = "The HashiCorp Cloud Platform channel to use for the deployment"
+  type = string
+  default = "latest"
+}
+
+variable "hcp_bucket" {
+  description = "The HashiCorp Cloud Platform bucket to use for the deployment"
+  type = string
+  default = "rhel-9-aap"
+}

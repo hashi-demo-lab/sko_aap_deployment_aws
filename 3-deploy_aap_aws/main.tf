@@ -35,13 +35,18 @@ resource "random_string" "instance_name_suffix" {
   upper = false
   numeric = false
 }
-#replace with HCP Packer lookup
-# hcp packer lookup
-data "hcp_packer_artifact" "ubuntu-east" {
-  bucket_name  = "hardened-ubuntu-16-04"
-  channel_name = "production"
+
+# hcp packer lookup for ami
+data "hcp_packer_version" "aap" {
+  bucket_name  = "rhel-9-aap"
+  channel_name = var.hcp_channel
+}
+
+data "hcp_packer_artifact" "aap" {
+  bucket_name  = data.hcp_packer_version.aap.bucket_name
+  channel_name = var.hcp_channel
   platform     = "aws"
-  region       = "us-east-1"
+  region       = var.aws_region
 }
 
 resource "aws_key_pair" "admin" {
@@ -64,7 +69,7 @@ module "rds" {
   multi_az = var.infrastructure_db_multi_az
   db_sng_description =  "Ansible Automation Platform Subnet Group"
   db_sng_name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-  db_sng_subnets = values(module.vpc.infrastructure_subnets)
+  db_sng_subnets = var.public_subnet_ids #this should be private subnet - to fix + secyurity groups
   db_sng_tags = merge(
     {
       Name = "aap-infrastructure-${var.deployment_id}-subnet-group"
@@ -78,7 +83,7 @@ module "rds" {
   username = var.infrastructure_db_username
   password = var.infrastructure_db_password
   persistent_tags = local.persistent_tags
-  vpc_security_group_ids = [module.vpc.infrastructure_sg_id]
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
   infrastructure_hub_count = var.infrastructure_hub_count
   infrastructure_eda_count = var.infrastructure_eda_count
 }
@@ -95,10 +100,10 @@ module "controller_vm" {
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix = random_string.instance_name_suffix.result
   vm_name_prefix = "controller-${count.index + 1}-"
-  instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_controller_ami
+  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
   instance_type = var.infrastructure_controller_instance_type
-  vpc_security_group_ids = [module.vpc.infrastructure_sg_id]
-  subnet_id = module.vpc.infrastructure_subnets[0]
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id = var.public_subnet_ids[0]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
   infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
@@ -118,10 +123,10 @@ module "hub_vm" {
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix = random_string.instance_name_suffix.result
   vm_name_prefix = "hub-${count.index + 1}-"
-  instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_hub_ami
+  instance_ami = var.infrastructure_hub_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_hub_ami
   instance_type = var.infrastructure_hub_instance_type
   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = module.vpc.infrastructure_subnets[2]
+  subnet_id = var.public_subnet_ids[0]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
   infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
@@ -141,10 +146,10 @@ module "execution_vm" {
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix = random_string.instance_name_suffix.result
   vm_name_prefix = "execution-${count.index + 1}-"
-  instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_execution_ami
+  instance_ami = var.infrastructure_execution_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_execution_ami
   instance_type = var.infrastructure_execution_instance_type
   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = module.vpc.infrastructure_subnets[1]
+  subnet_id = var.public_subnet_ids[0]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
   infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
@@ -164,10 +169,10 @@ module "eda_vm" {
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix = random_string.instance_name_suffix.result
   vm_name_prefix = "eda-${count.index + 1}-"
-  instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_eda_ami
+  instance_ami = var.infrastructure_eda_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_eda_ami
   instance_type = var.infrastructure_eda_instance_type
   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = module.vpc.infrastructure_subnets[3]
+  subnet_id = var.public_subnet_ids[0]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
   infrastructure_ssh_private_key = var.infrastructure_ssh_private_key

@@ -98,6 +98,6 @@ resource "aws_security_group" "aap_infrastructure_sg" {
     {
       Name = "aap-infrastructure-${var.deployment_id}-sg"
     },
-    #var.persistent_tags
+    local.persistent_tags
   )
 }
