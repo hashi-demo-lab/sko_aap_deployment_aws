@@ -13,14 +13,19 @@ output "vpc_id" {
   value = var.vpc_id
 }
 
-output "postgres_module_outputs" {
+output "postgres_vm_outputs" {
   description = "Database outputs"
   value = module.postgres_vm
 }
 
-output "controller_vm_module_outputs" {
+output "controller_vm_outputs" {
   description = "VMs outputs"
   value = module.controller_vm
+}
+
+output "gateway_vm_outputs" {
+  description = "VMs outputs"
+  value = module.gateway_vm
 }
 
 
