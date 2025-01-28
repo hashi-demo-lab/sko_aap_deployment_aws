@@ -8,23 +8,7 @@ locals {
   }
 }
 
-terraform {
-  required_providers {
-    random = {
-      source = "hashicorp/random"
-      version = "~> 3.6.0"
-    }
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 3.15"
-    }
-  }
-  required_version = ">= 1.5.4"
-}
-# Configure the AWS Provider
-provider "aws" {
-  region = var.aws_region
-}
+
 
 resource "random_string" "deployment_id" {
   count = local.create_deployment_id
@@ -52,19 +36,13 @@ resource "random_string" "instance_name_suffix" {
   numeric = false
 }
 #replace with HCP Packer lookup
-
-
-
-
-# data "aws_ami" "instance_ami" {
-#   most_recent = true
-#   owners = ["309956199498"] # Red Hat's account ID
-
-#   filter {
-#     name = "name"
-#     values = ["RHEL-9.2.*_HVM-*"]
-#   }
-# }
+# hcp packer lookup
+data "hcp_packer_artifact" "ubuntu-east" {
+  bucket_name  = "hardened-ubuntu-16-04"
+  channel_name = "production"
+  platform     = "aws"
+  region       = "us-east-1"
+}
 
 resource "aws_key_pair" "admin" {
   key_name = "admin-key"
@@ -75,7 +53,6 @@ resource "aws_key_pair" "admin" {
 # RDS Instance
 ########################################
 module "rds" {
-  depends_on = [ module.vpc ]
   source = "./modules/rds"
 
   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
@@ -111,7 +88,6 @@ module "rds" {
 ########################################
 
 module "controller_vm" {
-  depends_on = [ module.vpc ]
   source = "./modules/vms"
 
   app_tag = "controller"
@@ -135,7 +111,6 @@ module "controller_vm" {
 # Hub VM
 ########################################
 module "hub_vm" {
-  depends_on = [ module.vpc ]
   source = "./modules/vms"
 
   app_tag = "hub"
@@ -145,7 +120,7 @@ module "hub_vm" {
   vm_name_prefix = "hub-${count.index + 1}-"
   instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_hub_ami
   instance_type = var.infrastructure_hub_instance_type
-  vpc_security_group_ids = [module.vpc.infrastructure_sg_id]
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = module.vpc.infrastructure_subnets[2]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
@@ -159,7 +134,6 @@ module "hub_vm" {
 # Execution VM
 ########################################
 module "execution_vm" {
-  depends_on = [ module.vpc ]
   source = "./modules/vms"
 
   count = var.infrastructure_execution_count
@@ -169,8 +143,7 @@ module "execution_vm" {
   vm_name_prefix = "execution-${count.index + 1}-"
   instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_execution_ami
   instance_type = var.infrastructure_execution_instance_type
-  vpc_security_group_ids = [module.vpc.infrastructure_sg_id]
-  # subnet_id = index(module.vpc.infrastructure_subnets, "execution")
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = module.vpc.infrastructure_subnets[1]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags
@@ -184,7 +157,6 @@ module "execution_vm" {
 # Event-Driven Ansible VM
 ########################################
 module "eda_vm" {
-  depends_on = [ module.vpc ]
   source = "./modules/vms"
 
   count = var.infrastructure_eda_count
@@ -194,8 +166,7 @@ module "eda_vm" {
   vm_name_prefix = "eda-${count.index + 1}-"
   instance_ami = var.infrastructure_hub_ami == "" ? data.aws_ami.instance_ami.id : var.infrastructure_eda_ami
   instance_type = var.infrastructure_eda_instance_type
-  vpc_security_group_ids = [ module.vpc.infrastructure_sg_id ]
-  # subnet_id = index(module.vpc.infrastructure_subnets, "eda")
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = module.vpc.infrastructure_subnets[3]
   key_pair_name = aws_key_pair.admin.key_name
   persistent_tags = local.persistent_tags

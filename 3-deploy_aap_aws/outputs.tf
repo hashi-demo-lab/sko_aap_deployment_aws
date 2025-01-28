@@ -8,9 +8,9 @@ output "aws_region" {
   value = var.aws_region
 }
 
-output "vpc_module_outputs" {
+output "vpc_id" {
   description = "VPC outputs"
-  value = module.vpc
+  value = var.vpc_id
 }
 
 output "database_module_outputs" {

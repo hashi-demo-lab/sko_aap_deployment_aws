@@ -24,6 +24,25 @@ provider "registry.terraform.io/hashicorp/aws" {
   ]
 }
 
+provider "registry.terraform.io/hashicorp/hcp" {
+  version = "0.102.0"
+  hashes = [
+    "h1:8QiHqkAbpv91IGgQa7sSNzi5Upwxg4BZgw3wl1zYego=",
+    "zh:073a38d92ab0d4c83fe3eacdf5267f0de545c14de9e10dc06d8b7998fb146d6f",
+    "zh:1afd5dd995b861e4ce37dccaef3a5e297d195914b3c426cd1de4b5af4920127c",
+    "zh:27f97dc720e01cef5280d0edef044ec492bda91b921efb116830022fc592b418",
+    "zh:33b72e32edbd015a0c4eabcaa7bd0b3a111e3eba89b1b2abac7179e09a4fb82f",
+    "zh:4fc1e0ab364c16222917e33637cde484f1057ec8cabc7531edf27780f7f8965b",
+    "zh:539a6cfa8106d1454786af22949e18f9d651041f183969d3ed619bdcdc22f8fc",
+    "zh:541d4532c875b2ee7ecb98da9a1461e76788893b623b0adf7c634d9fff7770e3",
+    "zh:720125d6469cce103f847e543178da6158d1e7ecf2eb019a728ed26f3896d8a0",
+    "zh:774756ef67f840077f2e6eb48a8878828c726f08a072bff763e35c76914f43ba",
+    "zh:86a7b49425a20ecb66cd30dd9ad1620f1b6bcc0367b0abd2151ab64e6f888726",
+    "zh:944d958007da3f6fab2391f837a374cf6d2284e309f5967b7add2170afadea2b",
+    "zh:96bda317315683aad012e3f2698e217cf6e4024edb930af2216487f6ab860c0a",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/random" {
   version     = "3.6.3"
   constraints = "~> 3.6.0"

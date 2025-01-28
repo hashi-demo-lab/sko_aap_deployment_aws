@@ -13,6 +13,24 @@ variable "vpc_id" {
   description = "The VPC ID to deploy the infrastructure output from prereqs"
 }
 
+variable "aws_vpc_cidr" {
+  type = string
+  description = "The CIDR block for the VPC"
+  default = "10.219.255.0/24"
+}
+
+variable "public_subnet_ids" {
+  type = list(string)
+  description = "value of public subnet ids"
+  default = []
+}
+
+variable "private_subnet_ids" {
+  type = list(string)
+  description = "value of private subnet ids"
+  default = []
+}
+
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string
