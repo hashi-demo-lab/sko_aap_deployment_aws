@@ -25,7 +25,8 @@ provider "registry.terraform.io/hashicorp/aws" {
 }
 
 provider "registry.terraform.io/hashicorp/hcp" {
-  version = "0.102.0"
+  version     = "0.102.0"
+  constraints = ">= 0.102.0"
   hashes = [
     "h1:8QiHqkAbpv91IGgQa7sSNzi5Upwxg4BZgw3wl1zYego=",
     "zh:073a38d92ab0d4c83fe3eacdf5267f0de545c14de9e10dc06d8b7998fb146d6f",
