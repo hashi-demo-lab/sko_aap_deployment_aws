@@ -22,3 +22,10 @@ output "controller_vm_module_outputs" {
   description = "VMs outputs"
   value = module.controller_vm
 }
+
+
+
+output "ssh-command-controller" {
+  description = "Public Subnet IDs"
+  value = "ssh -i ~/.ssh/id_rsa ec2-user@${module.controller_vm[0].vm_public_ip}"
+}

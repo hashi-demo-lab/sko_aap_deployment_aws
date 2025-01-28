@@ -17,16 +17,6 @@ resource "random_string" "deployment_id" {
   upper = false
   numeric = false
 }
-
-########################################
-# VPC
-########################################
-  # module "vpc" {
-  #   source = "./modules/vpc"
-  #   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  #   persistent_tags = local.persistent_tags
-  # }
-
   
 
 resource "random_string" "instance_name_suffix" {
@@ -133,6 +123,7 @@ module "hub_vm" {
   infrastructure_admin_username = var.infrastructure_admin_username
   aap_red_hat_username = var.aap_red_hat_username
   aap_red_hat_password = var.aap_red_hat_password
+
 }
 
 ########################################
@@ -183,6 +174,7 @@ module "eda_vm" {
 
 resource "terraform_data" "inventory" {
   for_each = { for host, instance in flatten(module.controller_vm[*].vm_public_ip): host => instance }
+  input = "${var.inventory_revision}-${each.key}"
   connection {
       type = "ssh"
       user = var.infrastructure_admin_username

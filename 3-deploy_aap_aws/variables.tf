@@ -22,7 +22,6 @@ variable "aws_vpc_cidr" {
 variable "public_subnet_ids" {
   type = list(string)
   description = "value of public subnet ids"
-  default = []
 }
 
 variable "private_subnet_ids" {
@@ -120,7 +119,7 @@ variable "infrastructure_db_password" {
 variable "infrastructure_controller_count" {
   description = "The number of ec2 instances for controller"
   type = number
-  default = 0
+  default = 1
 }
 
 variable "infrastructure_controller_instance_type" {
@@ -139,7 +138,7 @@ variable "infrastructure_controller_ami" {
 variable "infrastructure_eda_count" {
   description = "The number of EDA instances"
   type = number
-  default = "0"
+  default = "1"
 }
 
 variable "infrastructure_eda_instance_type" {
@@ -158,13 +157,13 @@ variable "infrastructure_eda_ami" {
 variable "infrastructure_execution_count" {
   description = "The number of execution instances"
   type = number
-  default = 0
+  default = 1
 }
 
 variable "infrastructure_execution_instance_type" {
   description = "The execution instance type"
   type = string
-  default = "m5a.xlarge"
+  default = "m7a.xlarge"
 }
 variable "infrastructure_execution_ami" {
   description = "Execution AMI"
@@ -176,7 +175,7 @@ variable "infrastructure_execution_ami" {
 variable "infrastructure_hub_count" {
   description = "The number of ec2 instances for hub"
   type = number
-  default = 0
+  default = 1
 }
 
 variable "infrastructure_hub_instance_type" {
@@ -235,4 +234,15 @@ variable "hcp_bucket" {
   description = "The HashiCorp Cloud Platform bucket to use for the deployment"
   type = string
   default = "rhel-9-aap"
+}
+
+variable "hcp_vault_public_fqdn" {
+  description = "The public FQDN of the HashiCorp Vault instance"
+  type = string
+}
+
+variable "inventory_revision" {
+  description = "The revision of the inventory file"
+  type = string
+  default = "2"
 }
