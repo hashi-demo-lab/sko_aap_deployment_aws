@@ -131,3 +131,8 @@ variable "infrastructure_eda_count" {
   description = "The number of EDA instances"
   type = number
 }
+
+variable "infrastructure_gateway_count" {
+  description = "The number of gateway instances"
+  type = number
+}

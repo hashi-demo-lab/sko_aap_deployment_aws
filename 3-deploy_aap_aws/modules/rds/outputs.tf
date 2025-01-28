@@ -15,3 +15,9 @@ output "infrastructure_controller_rds_port" {
   description = "RDS instance port"
   value = aws_db_instance.controller.port
 }
+
+
+output "infrastructure_gateway_rds_hostname" {
+  description = "Gateway RDS instance hostname"
+  value = var.infrastructure_gateway_count > 0 ? aws_db_instance.gateway[0].address : ""
+}

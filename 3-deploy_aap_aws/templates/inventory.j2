@@ -26,9 +26,6 @@ ${addr}
 ${addr}
 %{ endfor ~}
 
-[database]
-postgres
-
 [all:vars]
 ansible_user=${infrastructure_admin_username}
 admin_password='${aap_admin_password}'
@@ -42,6 +39,13 @@ pg_database='controller'
 pg_username='${infrastructure_db_username}'
 pg_password='${infrastructure_db_password}'
 pg_sslmode='prefer'
+
+automationgateway_pg_host='${aap_gateway_db_host}'
+automationgateway_pg_port=5432
+automationgateway_pg_database='automationgateway'
+automationgateway_pg_username='${infrastructure_db_username}'
+automationgateway_pg_password='${infrastructure_db_password}'
+automationgateway_pg_sslmode='prefer'
 
 install_pg_port=5432
 

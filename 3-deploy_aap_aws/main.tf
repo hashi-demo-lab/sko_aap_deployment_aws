@@ -76,6 +76,7 @@ module "rds" {
   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
   infrastructure_hub_count = var.infrastructure_hub_count
   infrastructure_eda_count = var.infrastructure_eda_count
+  infrastructure_gateway_count = var.infrastructure_gateway_count
 }
 
 ########################################
@@ -217,6 +218,7 @@ resource "terraform_data" "inventory" {
       aap_red_hat_username = var.aap_red_hat_username
       aap_red_hat_password= var.aap_red_hat_password
       aap_controller_db_host = module.rds.infrastructure_controller_rds_hostname
+      aap_gateway_db_host = module.rds.infrastructure_gateway_rds_hostname
       aap_hub_db_host = module.rds.infrastructure_hub_rds_hostname
       aap_eda_db_host = module.rds.infrastructure_eda_rds_hostname
       aap_admin_password = var.aap_admin_password
