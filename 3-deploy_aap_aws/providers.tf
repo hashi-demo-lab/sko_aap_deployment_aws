@@ -8,8 +8,13 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 3.15"
     }
+
+    hcp = {
+      source = "hashicorp/hcp"
+      version = ">= 0.1.0"
+    }
   }
-  required_version = ">= 1.5.4"
+  required_version = ">= 0.102.0"
 }
 # Configure the AWS Provider
 provider "aws" {
