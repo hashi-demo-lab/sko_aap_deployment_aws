@@ -252,5 +252,5 @@ variable "hcp_vault_public_fqdn" {
 variable "inventory_revision" {
   description = "The revision of the inventory file"
   type = string
-  default = "1"
+  default = "2"
 }
