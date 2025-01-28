@@ -9,7 +9,6 @@ ${addr}
 %{ endfor ~}
 
 [automationcontroller:vars]
-peers=execution_nodes
 
 [automationhub]
 %{ for addr in aap_hub_hosts ~}
@@ -55,8 +54,6 @@ registry_url='registry.redhat.io'
 registry_username='${aap_red_hat_username}'
 registry_password='${aap_red_hat_password}'
 ee_from_hub_only = True
-
-receptor_listener_port=27199
 
 automationhub_admin_password='${aap_admin_password}'
 
