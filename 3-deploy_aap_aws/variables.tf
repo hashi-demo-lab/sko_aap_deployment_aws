@@ -157,7 +157,7 @@ variable "infrastructure_eda_ami" {
 variable "infrastructure_execution_count" {
   description = "The number of execution instances"
   type = number
-  default = 1
+  default = 0
 }
 
 variable "infrastructure_execution_instance_type" {
@@ -169,6 +169,12 @@ variable "infrastructure_execution_ami" {
   description = "Execution AMI"
   type = string
   default = ""
+}
+
+variable infrastructure_gateway_count {
+  description = "The number of ec2 instances for AAP gateway"
+  type = number
+  default = 1
 }
 
 # Hub variables
@@ -241,8 +247,10 @@ variable "hcp_vault_public_fqdn" {
   type = string
 }
 
+
+
 variable "inventory_revision" {
   description = "The revision of the inventory file"
   type = string
-  default = "2"
+  default = "1"
 }

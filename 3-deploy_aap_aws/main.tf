@@ -127,6 +127,29 @@ module "hub_vm" {
 }
 
 ########################################
+# Gateway VM
+########################################
+module "gateway_vm" {
+  source = "./modules/vms"
+
+  count = var.infrastructure_gateway_count
+  app_tag = "gateway"
+  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix = random_string.instance_name_suffix.result
+  vm_name_prefix = "gateway-${count.index + 1}-"
+  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_type = var.infrastructure_controller_instance_type
+  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id = var.public_subnet_ids[0]
+  key_pair_name = aws_key_pair.admin.key_name
+  persistent_tags = local.persistent_tags
+  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
+  infrastructure_admin_username = var.infrastructure_admin_username
+  aap_red_hat_username = var.aap_red_hat_username
+  aap_red_hat_password = var.aap_red_hat_password
+}
+
+########################################
 # Execution VM
 ########################################
 module "execution_vm" {
@@ -184,6 +207,7 @@ resource "terraform_data" "inventory" {
   provisioner "file" {
     content = templatefile("${path.module}/templates/inventory.j2", { 
       aap_controller_hosts = module.controller_vm[*].vm_private_ip
+      aap_gateway_hosts = module.gateway_vm[*].vm_private_ip
       aap_ee_hosts = module.execution_vm[*].vm_private_ip
       aap_hub_hosts = module.hub_vm[*].vm_private_ip
       aap_eda_hosts = module.eda_vm[*].vm_private_ip
