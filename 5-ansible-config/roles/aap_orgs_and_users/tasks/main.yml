@@ -1,0 +1,12 @@
+---
+- name: Include tasks to create organizations
+  include_tasks: create_orgs.yml
+
+- name: Include tasks to create users
+  include_tasks: create_users.yml
+
+- name: Include tasks to assign roles
+  include_tasks: assign_roles.yml
+
+- name: Include tasks to configure Vault credentials
+  include_tasks: configure_vault_credentials.yml
