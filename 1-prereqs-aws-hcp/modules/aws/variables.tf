@@ -1,24 +1,24 @@
 variable "region" {
-  description = "AWS region"
+  description = "aws region"
   type        = string
 }
 
 variable "deployment_id" {
-  description = "Deployment id"
+  description = "deployment id"
   type        = string
 }
 
 variable "vpc_cidr" {
-  description = "VPC CIDR"
+  description = "vpc cidr"
   type        = string
 }
 
 variable "hcp_hvn_provider_account_id" {
-  description = "HCP HVN provider account id"
+  description = "hcp hvn provider account id"
   type        = string
 }
 
 variable "hcp_hvn_cidr" {
-  description = "HCP HVN cidr"
+  description = "hcp hvn cidr"
   type        = string
 }

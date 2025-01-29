@@ -39,17 +39,18 @@ resource "terraform_data" "aap_infrastructure_sshkey" {
       type = "ssh"
       user = var.infrastructure_admin_username
       host = aws_instance.aap_infrastructure_vm.public_ip
-      private_key = file(var.infrastructure_ssh_private_key)
+      private_key = var.infrastructure_ssh_private_key
   }
   provisioner "file" {
-    source = var.infrastructure_ssh_private_key
+    content = var.infrastructure_ssh_private_key
     destination = "/home/${var.infrastructure_admin_username}/.ssh/infrastructure_ssh_private_key.pem"
   }
-  provisioner "remote-exec" {
-    inline = [
-      "chmod 0600 /home/${var.infrastructure_admin_username}/.ssh/infrastructure_ssh_private_key.pem",
-    ]
-  }
+  
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "chmod 0600 /home/${var.infrastructure_admin_username}/.ssh/infrastructure_ssh_private_key.pem",
+  #   ]
+  # }
 }
 
 resource "terraform_data" "aap_subscription_manager" {
@@ -58,7 +59,7 @@ resource "terraform_data" "aap_subscription_manager" {
     type = "ssh"
     user = var.infrastructure_admin_username
     host = aws_instance.aap_infrastructure_vm.public_ip
-    private_key = file(var.infrastructure_ssh_private_key)
+    private_key = var.infrastructure_ssh_private_key
     timeout = "10m"
   }
   provisioner "remote-exec" {

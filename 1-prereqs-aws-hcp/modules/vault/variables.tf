@@ -1,15 +1,15 @@
 variable "deployment_name" {
-  description = "Deployment name, used to prefix resources"
+  description = "deployment name, used to prefix resources"
   type        = string
 }
 
 variable "hvn_id" {
-  description = "HVN id"
+  description = "hvn id"
   type        = string
 }
 
 variable "tier" {
-  description = "Vault cluster tier"
+  description = "cluster tier"
   type        = string
 }
 

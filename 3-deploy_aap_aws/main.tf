@@ -1,14 +1,13 @@
 locals {
   create_deployment_id = var.deployment_id != "" ? 0 : 1
-  # Common tags to be assigned to all resources
+  # common tags to be assigned to all resources
   persistent_tags = {
     purpose = "automation"
     environment = "ansible-automation-platform"
     deployment = "aap-infrastructure-${var.deployment_id}"
   }
+  key_pair_private_key = file("${path.root}/../${var.deployment_id}.pem")
 }
-
-
 
 resource "random_string" "deployment_id" {
   count = local.create_deployment_id
@@ -17,7 +16,6 @@ resource "random_string" "deployment_id" {
   upper = false
   numeric = false
 }
-  
 
 resource "random_string" "instance_name_suffix" {
   length = 8
@@ -39,68 +37,43 @@ data "hcp_packer_artifact" "aap" {
   region       = var.aws_region
 }
 
-resource "aws_key_pair" "admin" {
-  key_name = "admin-key"
-  public_key = file(var.infrastructure_ssh_public_key)
+# aws lookup for vpc and subnets
+data "aws_vpc" "vpc" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.deployment_id}"]
+  }
+}
+
+data "aws_subnets" "public" {
+  filter {
+    name   = "tag:Name"
+    values = ["*public*"]
+  }
 }
 
 ########################################
-# RDS Instance
-########################################
-# module "rds" {
-#   source = "./modules/rds"
-
-#   deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-#   allocated_storage = var.infrastructure_db_allocated_storage
-#   allow_major_version_upgrade = var.infrastructure_db_allow_major_version_upgrade
-#   auto_minor_version_upgrade = var.infrastructure_db_auto_minor_version_upgrade
-#   engine_version = var.infrastructure_db_engine_version
-#   instance_class = var.infrastructure_db_instance_class
-#   multi_az = var.infrastructure_db_multi_az
-#   db_sng_description =  "Ansible Automation Platform Subnet Group"
-#   db_sng_name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-#   db_sng_subnets = var.private_subnet_ids #this should be private subnet - to fix + secyurity groups
-#   db_sng_tags = merge(
-#     {
-#       Name = "aap-infrastructure-${var.deployment_id}-subnet-group"
-#     },
-#     local.persistent_tags
-#   ) 
-#   skip_final_snapshot = true
-#   storage_iops = var.infrastructure_db_storage_iops
-#   storage_encrypted = var.infrastructure_db_storage_encrypted
-#   storage_type = var.infrastructure_db_storage_type
-#   username = var.infrastructure_db_username
-#   password = var.infrastructure_db_password
-#   persistent_tags = local.persistent_tags
-#   vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-#   infrastructure_hub_count = var.infrastructure_hub_count
-#   infrastructure_eda_count = var.infrastructure_eda_count
-#   infrastructure_gateway_count = var.infrastructure_gateway_count
-# }
-
-########################################
-# Controller VM 
+# Controller VM
 ########################################
 
 module "controller_vm" {
   source = "./modules/vms"
 
-  app_tag = "controller"
-  count = var.infrastructure_controller_count
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "controller-${count.index + 1}-"
-  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
-  instance_type = var.infrastructure_controller_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
+  app_tag                        = "controller"
+  count                          = var.infrastructure_controller_count
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "controller-${count.index + 1}-"
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_type                  = var.infrastructure_controller_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
 
 ########################################
@@ -109,22 +82,21 @@ module "controller_vm" {
 module "hub_vm" {
   source = "./modules/vms"
 
-  app_tag = "hub"
-  count = var.infrastructure_hub_count
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "hub-${count.index + 1}-"
-  instance_ami = var.infrastructure_hub_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_hub_ami
-  instance_type = var.infrastructure_hub_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
-
+  app_tag                        = "hub"
+  count                          = var.infrastructure_hub_count
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "hub-${count.index + 1}-"
+  instance_ami                   = var.infrastructure_hub_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_hub_ami
+  instance_type                  = var.infrastructure_hub_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
 
 ########################################
@@ -133,21 +105,21 @@ module "hub_vm" {
 module "gateway_vm" {
   source = "./modules/vms"
 
-  count = var.infrastructure_gateway_count
-  app_tag = "gateway"
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "gateway-${count.index + 1}-"
-  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
-  instance_type = var.infrastructure_controller_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
+  count                          = var.infrastructure_gateway_count
+  app_tag                        = "gateway"
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "gateway-${count.index + 1}-"
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_type                  = var.infrastructure_controller_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
 
 ########################################
@@ -156,21 +128,21 @@ module "gateway_vm" {
 module "execution_vm" {
   source = "./modules/vms"
 
-  count = var.infrastructure_execution_count
-  app_tag = "execution"
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "execution-${count.index + 1}-"
-  instance_ami = var.infrastructure_execution_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_execution_ami
-  instance_type = var.infrastructure_execution_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
+  count                          = var.infrastructure_execution_count
+  app_tag                        = "execution"
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "execution-${count.index + 1}-"
+  instance_ami                   = var.infrastructure_execution_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_execution_ami
+  instance_type                  = var.infrastructure_execution_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
 
 ########################################
@@ -179,21 +151,21 @@ module "execution_vm" {
 module "eda_vm" {
   source = "./modules/vms"
 
-  count = var.infrastructure_eda_count
-  app_tag = "eda"
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "eda-${count.index + 1}-"
-  instance_ami = var.infrastructure_eda_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_eda_ami
-  instance_type = var.infrastructure_eda_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
+  count                          = var.infrastructure_eda_count
+  app_tag                        = "eda"
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "eda-${count.index + 1}-"
+  instance_ami                   = var.infrastructure_eda_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_eda_ami
+  instance_type                  = var.infrastructure_eda_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
 
 ########################################
@@ -202,27 +174,25 @@ module "eda_vm" {
 module "postgres_vm" {
   source = "./modules/vms"
 
-  app_tag = "postgres"
-  deployment_id = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
-  instance_name_suffix = random_string.instance_name_suffix.result
-  vm_name_prefix = "postgres-"
-  instance_ami = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
-  instance_type = var.infrastructure_postgres_instance_type
-  vpc_security_group_ids = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = var.public_subnet_ids[0]
-  key_pair_name = aws_key_pair.admin.key_name
-  persistent_tags = local.persistent_tags
-  infrastructure_ssh_private_key = var.infrastructure_ssh_private_key
-  infrastructure_admin_username = var.infrastructure_admin_username
-  aap_red_hat_username = var.aap_red_hat_username
-  aap_red_hat_password = var.aap_red_hat_password
+  app_tag                        = "postgres"
+  deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
+  instance_name_suffix           = random_string.instance_name_suffix.result
+  vm_name_prefix                 = "postgres-"
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_type                  = var.infrastructure_postgres_instance_type
+  vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
+  subnet_id                      = data.aws_subnets.public.ids[0]
+  key_pair_name                  = var.deployment_id
+  persistent_tags                = local.persistent_tags
+  infrastructure_ssh_private_key = local.key_pair_private_key
+  infrastructure_admin_username  = var.infrastructure_admin_username
+  aap_red_hat_username           = var.aap_red_hat_username
+  aap_red_hat_password           = var.aap_red_hat_password
 }
-
 
 locals {
   postgres_vm_ip = module.postgres_vm.vm_private_ip
 }
-
 
 resource "terraform_data" "inventory" {
   depends_on = [ module.postgres_vm, module.controller_vm ]
@@ -231,7 +201,7 @@ resource "terraform_data" "inventory" {
       type = "ssh"
       user = var.infrastructure_admin_username
       host = each.value
-      private_key = file(var.infrastructure_ssh_private_key)
+      private_key = local.key_pair_private_key
     }
   provisioner "file" {
     content = templatefile("${path.module}/templates/inventory.j2", { 
