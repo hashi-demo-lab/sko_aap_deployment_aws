@@ -3,7 +3,7 @@
     ansible.platform.user:
       username: "{{ item.name }}_admin"
       password: foobarbaz
-      organizations: "{{created_orgs.results}}[{{ item.name }}].id"
+      organizations: "{{ org_map[{{ item.name }}] }}"
       state: present
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
