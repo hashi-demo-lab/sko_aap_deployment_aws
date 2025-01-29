@@ -3,10 +3,6 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Install required collections
-      ansible.builtin.galaxy:
-        requirements_file: "{{ playbook_dir }}/collections/requirements.yml"
-
     - name: Include role tasks
       include_role:
         name: aap_orgs_and_users
