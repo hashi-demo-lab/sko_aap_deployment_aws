@@ -9,9 +9,10 @@
   #   register: org_creation
   - name: Create Organization
     ansible.platform.organization:
-      name: "{{ aap_organizations.item.name }}"
-      description: "{{ aap_organizations.item.name }}"
+      name: "{{ item.name }}"
+      description: "{{ item.name }}"
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
       gateway_validate_certs: false
       state: present
+    loop: "{{ aap_organizations }}"
