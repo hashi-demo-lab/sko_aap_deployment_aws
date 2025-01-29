@@ -3,6 +3,6 @@
     ansible.platform.user:
       username: "{{ item.name }}_admin"
       password: foobarbaz
-      organization: "{{ item.name }}"
+      organizations: "{{created_orgs.results}}[{{ item.name }}].id"
       state: present
     loop: "{{ aap_organizations }}"

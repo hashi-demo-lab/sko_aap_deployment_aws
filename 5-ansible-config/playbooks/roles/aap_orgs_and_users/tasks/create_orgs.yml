@@ -9,3 +9,4 @@
       gateway_validate_certs: false
       state: present
     loop: "{{ aap_organizations }}"
+    register: created_orgs
