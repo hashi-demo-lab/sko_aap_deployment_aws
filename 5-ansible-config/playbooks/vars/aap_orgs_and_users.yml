@@ -1,6 +1,6 @@
 ---
 # AAP Configuration
-aap_url: "https://your-aap-instance.com"
+aap_url: "https://44.210.128.100"
 
 # Organizations and Users
 organizations:
