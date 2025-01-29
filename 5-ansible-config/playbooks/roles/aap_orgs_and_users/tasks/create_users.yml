@@ -1,4 +1,7 @@
 ---
+  - name: Debug org_map
+    debug:
+      var: org_map
   - name: Add user as a org administrator user
     ansible.platform.user:
       username: "{{ item.name }}_admin"
