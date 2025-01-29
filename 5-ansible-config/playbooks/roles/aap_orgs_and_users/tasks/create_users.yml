@@ -7,7 +7,7 @@
       username: "{{ item.name }}_admin"
       password: foobarbaz
       organizations: 
-        - "{{ org_map[item.name] }}"
+        - '{{ org_map[ item.name ] }}'
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
