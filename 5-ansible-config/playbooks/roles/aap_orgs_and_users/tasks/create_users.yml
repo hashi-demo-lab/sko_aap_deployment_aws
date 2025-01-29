@@ -13,3 +13,8 @@
       gateway_password: "{{ aap_password }}"
       gateway_validate_certs: false
     loop: "{{ aap_organizations }}"
+    register: created_users
+    
+  - name: Debug created_users
+    debug:
+      var: created_users
