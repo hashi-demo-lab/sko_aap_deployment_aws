@@ -32,7 +32,7 @@
         ansible.builtin.set_fact:
           aap_oauthtoken: "{{ authtoken_res.json.token }}"
           aap_oauthtoken_url: "{{ authtoken_res.json.url }}"    
-    no_log: true
+    no_log: false
     when: aap_oauthtoken is not defined
     tags:
       - always 
