@@ -25,7 +25,7 @@
           password: "{{ aap_password }}"
           method: POST
           force_basic_auth: true
-          validate_certs: "{{ controller_validate_certs }}"
+          validate_certs: false
           status_code: 201
         register: authtoken_res
       - name: "Set the oauth token to be used since now"
