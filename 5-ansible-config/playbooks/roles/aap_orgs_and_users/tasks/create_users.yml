@@ -17,6 +17,7 @@
     ansible.platform.user:
       username: "{{ item.name }}_admin"
       password: foobarbaz
+      email: "admin@gateway.hashicorp.com"
       organizations: 
         - '{{ org_map[ item.name ] }}'
       gateway_hostname: "{{ aap_url }}"
