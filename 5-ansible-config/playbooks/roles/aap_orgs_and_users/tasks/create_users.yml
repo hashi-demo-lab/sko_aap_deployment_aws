@@ -14,26 +14,51 @@
       gateway_validate_certs: false
     loop: "{{ aap_organizations }}"
     register: created_users
-  
 
-  ### there appears to be a bug in the ansible.platform.user module that prevents the user from being added to the organization
-  ### TO DO user association with organization POST a list of instances to /:id/users/associate/ to add those users to the relationship
-  ### see https://44.210.128.100/api/gateway/v1/organizations/5/users/associate/
+  #this is a worksaround to the bug in the ansible.platform.user module
+  - name: "aap gateway authentication (block)"
+    block:
+      - name: "Get the Authentication Token for the future requests"
+        ansible.builtin.uri:
+          url: "https://{{ aap_url }}/api/gateway/v1/tokens/"
+          user: "admin"
+          password: "{{ aap_password }}"
+          method: POST
+          force_basic_auth: true
+          validate_certs: "{{ controller_validate_certs }}"
+          status_code: 201
+        register: authtoken_res
+      - name: "Set the oauth token to be used since now"
+        ansible.builtin.set_fact:
+          aap_oauthtoken: "{{ authtoken_res.json.token }}"
+          aap_oauthtoken_url: "{{ authtoken_res.json.url }}"    
+    no_log: true
+    when: aap_oauthtoken is not defined
+    tags:
+      - always 
 
-  # - name: Add user user to org
-  #   ansible.platform.user:
-  #     username: "{{ item.name }}_admin"
-  #     password: foobarbaz
-  #     email: "admin@gateway.hashicorp.com"
-  #     organizations: 
-  #       - '{{ org_map[ item.name ] }}'
-  #     gateway_hostname: "{{ aap_url }}"
-  #     gateway_username: "admin"
-  #     gateway_password: "{{ aap_password }}"
-  #     gateway_validate_certs: false
-  #   loop: "{{ aap_organizations }}"
-  #   register: created_users_updated
-    
-  # - name: Debug created_users
-  #   debug:
-  #     var: created_users
+### there appears to be a bug in the ansible.platform.user module that prevents the user from being added to the organization
+### TO DO user association with organization POST a list of instances to /:id/users/associate/ to add those users to the relationship
+### see https://44.210.128.100/api/gateway/v1/organizations/5/users/associate/
+
+# - name: Add user user to org
+#   ansible.platform.user:
+#     username: "{{ item.name }}_admin"
+#     password: foobarbaz
+#     email: "admin@gateway.hashicorp.com"
+#     organizations: 
+#       - '{{ org_map[ item.name ] }}'
+#     gateway_hostname: "{{ aap_url }}"
+#     gateway_username: "admin"
+#     gateway_password: "{{ aap_password }}"
+#     gateway_validate_certs: false
+#   loop: "{{ aap_organizations }}"
+#   register: created_users_updated
+
+# - name: Debug created_users
+#   debug:
+#     var: created_users
+
+
+#### WORKAROUD
+
