@@ -14,6 +14,6 @@ output "gateway_vm_outputs" {
 }
 
 output "ssh-command-controller" {
-  description = "Public Subnet IDs"
-  value = "ssh -i ${var.deployment_id}.pem ec2-user@${module.controller_vm[0].vm_public_ip}"
+  description = "SSH command to connect to the gateway VM"
+  value = "ssh -i ${var.deployment_id}.pem ec2-user@${module.gateway_vm[0].vm_public_ip}"
 }
