@@ -6,7 +6,7 @@
       state: present
       controller_host: "{{ aap_url }}"
       controller_username: "admin"
-      controller_password: "{{ aap_password }}"
+      controller_password: "{{ controller_password }}"
       validate_certs: no
     loop: "{{ organizations }}"
     register: org_creation
