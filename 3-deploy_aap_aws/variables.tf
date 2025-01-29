@@ -187,7 +187,7 @@ variable "infrastructure_hub_count" {
 variable "infrastructure_hub_instance_type" {
   description = "The hub instance type"
   type = string
-  default = "m5a.large"
+  default = "m7a.xlarge"
 }
 
 variable "infrastructure_hub_ami" {
