@@ -59,7 +59,7 @@
       body:
         instances: [ "{{ user_map[item.name ~ '_admin'] }}" ]
       validate_certs: false
-      status_code: 201
+      status_code: 204
     loop: "{{ aap_organizations }}"
     register: org_association
     no_log: false
