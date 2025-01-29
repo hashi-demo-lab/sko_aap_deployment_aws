@@ -6,7 +6,7 @@
     ansible.platform.user:
       username: "{{ item.name }}_admin"
       password: foobarbaz
-      organizations: ["{{ item.name }}"]
+      organizations: 5
       state: present
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
