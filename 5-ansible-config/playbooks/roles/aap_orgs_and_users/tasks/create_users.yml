@@ -46,7 +46,8 @@
 
   - name: Create username to ID mapping
     ansible.builtin.set_fact:
-      user_map: "{{ created_users.results | items2dict(key_name='invocation.module_args.username', value_name='id') }}"
+      user_map: "{{ user_map | default({}) | combine({item.invocation.module_args.username: item.id}) }}"
+    loop: "{{ created_users.results }}"
 
   - name: "associate users with organizations"
     ansible.builtin.uri:
