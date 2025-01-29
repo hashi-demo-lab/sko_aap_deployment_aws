@@ -1,0 +1,7 @@
+deployment_id = ""
+aap_red_hat_username = ""
+aap_red_hat_password = ""
+hcp_client_id = ""
+hcp_client_secret = ""
+hcp_vault_public_fqdn = ""
+aws_region = ""
