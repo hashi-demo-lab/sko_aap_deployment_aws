@@ -1,0 +1,12 @@
+---
+  - name: create aap organizations
+    ansible.controller.organization:
+      name: "{{ item.name }}"
+      description: "Organization {{ item.name }}"
+      state: present
+      controller_host: "{{ aap_url }}"
+      controller_username: "admin"
+      controller_password: "{{ aap_password }}"
+      validate_certs: no
+    loop: "{{ organizations }}"
+    register: org_creation
