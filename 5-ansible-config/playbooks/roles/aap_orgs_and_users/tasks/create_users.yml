@@ -2,12 +2,11 @@
   - name: Debug org_map
     debug:
       var: org_map
+
   - name: create user 
     ansible.platform.user:
       username: "{{ item.name }}_admin"
       password: foobarbaz
-      organizations:
-        - 5
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
@@ -37,8 +36,6 @@
     tags:
       - always 
 
- # need to get the user id and pass the id into instances for org association
-
  # debug created_users
   - name: Debug created_users
     debug:
@@ -48,7 +45,8 @@
     ansible.builtin.set_fact:
       user_map: "{{ user_map | default({}) | combine({item.invocation.module_args.username: item.id}) }}"
     loop: "{{ created_users.results }}"
-
+ 
+ # need to get the user id and pass the id into instances for org association
   - name: "associate users with organizations"
     ansible.builtin.uri:
       url: "{{ aap_url }}/api/gateway/v1/organizations/{{org_map[item.name]}}/users/associate/"
