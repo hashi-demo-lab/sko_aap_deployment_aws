@@ -36,6 +36,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-
+# Ignore temporary certificates
+*.pem
 
 **/temp.txt

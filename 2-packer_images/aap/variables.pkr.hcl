@@ -21,18 +21,18 @@ variable "ami_filter" {
 }
 
 variable "instance_type" {
-  default     = "m7a.large"
+  default     = "m7i.large"
   description = "The instance type to use for the builder"
   type        = string
 
   validation {
-    condition     = contains(["t2.small", "t2.medium", "t2.large", "t3.small", "m5a.large","m7a.large"], var.instance_type)
+    condition     = contains(["t2.small", "t2.medium", "t2.large", "t3.small", "m5a.large","m7a.large", "m7i.large"], var.instance_type)
     error_message = "The instance type must be one of: t2.small, t2.medium, t2.large.  The instance type t2.micro times out."
   }
 }
 
 variable "region" {
-  default     = "us-east-1"
+  default     = "us-west-2"
   description = "The region to use for the builder"
   type        = string
 }
@@ -43,15 +43,15 @@ variable "ssh_username" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "The VPC ID to use for the builder"
-  type        = string
-}
+# variable "vpc_id" {
+#   description = "The VPC ID to use for the builder"
+#   type        = string
+# }
 
-variable "public_subnet_id" {
-  description = "The VPC ID to use for the builder"
-  type        = string
-}
+# variable "public_subnet_id" {
+#   description = "The VPC ID to use for the builder"
+#   type        = string
+# }
 
 variable "rhn_username" {
   description = "The Red Hat Network username to use for the builder"

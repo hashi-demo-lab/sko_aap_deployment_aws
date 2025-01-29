@@ -34,13 +34,13 @@ variable "hcp_vault_tier" {
   default     = "standard_small"
 }
 
-// amazon web services (aws) variables
-
 variable "aws_region" {
   description = "aws region"
   type        = string
-  default     = "us-east-1"
+  default     = "us-west-1"
 }
+
+// amazon web services (aws) variables
 
 variable "aws_vpc_cidr" {
   description = "aws vpc cidr"

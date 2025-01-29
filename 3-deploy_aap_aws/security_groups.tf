@@ -1,7 +1,7 @@
 resource "aws_security_group" "aap_infrastructure_sg" {
   name = "aap-infrastructure-${var.deployment_id}-sg"
   description = "AAP security group"
-  vpc_id = var.vpc_id
+  vpc_id = data.aws_vpc.vpc.id
 
   ingress {
     from_port = 22

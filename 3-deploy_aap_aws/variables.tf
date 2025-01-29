@@ -1,33 +1,12 @@
 variable "deployment_id" {
   description = "Creates a random string that will be used in tagging for correlating the resources used with a deployment of AAP."
   type = string
-  validation {
-    condition = ((length(var.deployment_id) >= 2 && length(var.deployment_id)<=10) || length(var.deployment_id) == 0) && (can(regex("^[a-z]", var.deployment_id)) || var.deployment_id == "")
-    error_message = "deployment_id length should be between 2-10 chars and should contain lower case alpha chars only"
-  }
-  default = "skoaap"
-}
-
-variable "vpc_id" {
-  type = string
-  description = "The VPC ID to deploy the infrastructure output from prereqs"
 }
 
 variable "aws_vpc_cidr" {
   type = string
   description = "The CIDR block for the VPC"
   default = "10.200.0.0/16"
-}
-
-variable "public_subnet_ids" {
-  type = list(string)
-  description = "value of public subnet ids"
-}
-
-variable "private_subnet_ids" {
-  type = list(string)
-  description = "value of private subnet ids"
-  default = []
 }
 
 variable "aws_region" {
@@ -39,6 +18,17 @@ variable "aws_region" {
   condition = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
   error_message = "Must be a valid AWS Region name."
   }
+}
+
+# hashicorp cloud platform (hcp) variables
+variable "hcp_client_id" {
+  description = "hcp client id"
+  type        = string
+}
+
+variable "hcp_client_secret" {
+  description = "hcp client secret"
+  type        = string
 }
 
 # Database variables
@@ -260,8 +250,6 @@ variable "hcp_vault_public_fqdn" {
   description = "The public FQDN of the HashiCorp Vault instance"
   type = string
 }
-
-
 
 variable "inventory_revision" {
   description = "The revision of the inventory file"
