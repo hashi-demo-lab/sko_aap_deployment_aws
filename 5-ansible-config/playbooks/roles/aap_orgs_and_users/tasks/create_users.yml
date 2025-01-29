@@ -44,6 +44,10 @@
     debug:
       var: created_users
 
+  - name: Create username to ID mapping
+    ansible.builtin.set_fact:
+      user_map: "{{ created_users.results | items2dict(key_name='invocation.module_args.username', value_name='id') }}"
+
   - name: "associate users with organizations"
     ansible.builtin.uri:
       url: "{{ aap_url }}/api/gateway/v1/organizations/{{org_map[item.name]}}/users/associate/"
@@ -52,7 +56,7 @@
       method: POST
       body_format: json
       body:
-        instances: [ "{{ item.name }}_admin" ]
+        instances: [ "{{ user_map[item.name ~ '_admin'] }}" ]
       validate_certs: false
       status_code: 201
     loop: "{{ aap_organizations }}"
