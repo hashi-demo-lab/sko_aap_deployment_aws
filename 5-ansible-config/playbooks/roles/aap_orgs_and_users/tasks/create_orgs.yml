@@ -3,10 +3,10 @@
     ansible.platform.organization:
       name: "{{ item.name }}"
       description: "{{ item.name }}"
+      state: present
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
       gateway_validate_certs: false
-      state: present
     loop: "{{ aap_organizations }}"
     register: created_orgs
