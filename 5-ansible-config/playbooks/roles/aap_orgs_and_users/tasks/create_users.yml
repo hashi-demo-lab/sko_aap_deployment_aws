@@ -1,0 +1,8 @@
+---
+  - name: Add user as a org administrator user
+    ansible.platform.user:
+      username: "{{ item.name }}_admin"
+      password: foobarbaz
+      organization: "{{ item.name }}"
+      state: present
+    loop: "{{ aap_organizations }}"

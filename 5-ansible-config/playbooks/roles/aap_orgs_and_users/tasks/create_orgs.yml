@@ -1,12 +1,4 @@
 ---
-  # - name: create aap organizations
-  #   infra.aap_configuration.organizations:
-  #     aap_organizations: "{{ aap_organizations }}"
-  #     aap_hostname: "{{ aap_url }}"
-  #     aap_username: "admin"
-  #     aap_password: "{{ aap_password }}"
-  #     validate_certs: no
-  #   register: org_creation
   - name: Create Organization
     ansible.platform.organization:
       name: "{{ item.name }}"

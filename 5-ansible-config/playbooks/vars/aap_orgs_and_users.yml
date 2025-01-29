@@ -2,13 +2,26 @@
 # AAP Configuration
 aap_url: "https://44.210.128.100"
 
-# Organizations and Users
-aap_organizations:
-- name: Org1
-  state: exists
-- name: Org2
-
 # Hashicorp Vault Configuration
 vault_url: "https://your-vault-instance.com"
+
+# SSH Secrets Engine Configuration
 vault_ssh_mount_point: "ssh"  # Default SSH secrets engine mount point
 vault_ssh_role: "signed-ssh-role"  # Role for SSH signed certificates
+
+
+
+# Organizations and Users
+aap_organizations:
+- name: org1
+  state: exists
+- name: org2
+  state: exists
+- name: org3
+  state: exists
+
+
+
+
+
+
