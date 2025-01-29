@@ -37,9 +37,16 @@
     tags:
       - always 
 
+ # need to get the user id and pass the id into instances for org association
+
+ # debug created_users
+  - name: Debug created_users
+    debug:
+      var: created_users
+
   - name: "associate users with organizations"
     ansible.builtin.uri:
-      url: "{{ aap_url }}/api/gateway/v1/organizations/{{ org_map[ item.name ] }}/users/associate/"
+      url: "{{ aap_url }}/api/gateway/v1/organizations/{{org_map[item.name]}}/users/associate/"
       headers:
         Authorization: "Bearer {{ aap_oauthtoken }}"
       method: POST
@@ -51,6 +58,7 @@
     loop: "{{ aap_organizations }}"
     register: org_association
     no_log: false
+
 
 ### there appears to be a bug in the ansible.platform.user module that prevents the user from being added to the organization
 ### TO DO user association with organization POST a list of instances to /:id/users/associate/ to add those users to the relationship
