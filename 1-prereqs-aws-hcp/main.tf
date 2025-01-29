@@ -35,3 +35,13 @@ module "vault-hcp" {
   hvn_id          = module.hcp-hvn.id
   tier            = var.hcp_vault_tier
 }
+
+resource "local_file" "outputs" {
+  content  = jsonencode({
+    deployment_id = local.deployment_id,
+    hcp_vault_public_fqdn = module.vault-hcp.public_endpoint_url,
+    hcp_vault_private_fqdn = module.vault-hcp.private_endpoint_url,
+    hcp_vault_root_token = module.vault-hcp.root_token,
+  })
+  filename = "${path.root}/../deployment_outputs.json.tmp"
+}
