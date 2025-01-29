@@ -3,13 +3,10 @@
 aap_url: "https://44.210.128.100"
 
 # Organizations and Users
-organizations:
-  - name: "Org1"
-    admin_user: "admin1"
-  - name: "Org2"
-    admin_user: "admin2"
-  - name: "Org3"
-    admin_user: "admin3"
+aap_organizations:
+- name: Org1
+  state: exists
+- name: Org2
 
 # Hashicorp Vault Configuration
 vault_url: "https://your-vault-instance.com"
