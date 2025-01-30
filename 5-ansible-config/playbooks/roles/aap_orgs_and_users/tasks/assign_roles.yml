@@ -1,8 +1,10 @@
 - name: Create Organization Admin Role
   ansible.controller.role:
-    user: "{{ item.name }}_admin"
+    users: 
+    - "{{ item.name }}_admin"
     role: admin
-    organization: "{{ item.name }}"
+    organizations: 
+    - "{{ item.name }}"
     state: present
     controller_host: "{{ aap_url }}"
     controller_username: "admin"
