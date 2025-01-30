@@ -1,16 +1,16 @@
 ---
-  - name: Create Organization
-    ansible.platform.organization:
-      name: "{{ item.name }}"
-      description: "{{ item.name }}"
-      state: present
-      gateway_hostname: "{{ aap_url }}"
-      gateway_username: "admin"
-      gateway_password: "{{ aap_password }}"
-      gateway_validate_certs: false
-    loop: "{{ aap_organizations }}"
-    register: created_orgs
+- name: Create Organization
+  ansible.platform.organization:
+    name: "{{ item.name }}"
+    description: "{{ item.name }}"
+    state: present
+    gateway_hostname: "{{ aap_url }}"
+    gateway_username: "admin"
+    gateway_password: "{{ aap_password }}"
+    gateway_validate_certs: false
+  loop: "{{ aap_organizations }}"
+  register: created_orgs
 
-  - name: Store Organization Name-ID Mapping
-    set_fact:
-      org_map: "{{ dict(created_orgs.results | map(attribute='invocation.module_args.name') | list | zip(created_orgs.results | map(attribute='id') | list)) }}"
+- name: Store Organization Name-ID Mapping
+  set_fact:
+    org_map: "{{ dict(created_orgs.results | map(attribute='invocation.module_args.name') | list | zip(created_orgs.results | map(attribute='id') | list)) }}"
