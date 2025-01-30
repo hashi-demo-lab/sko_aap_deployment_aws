@@ -6,7 +6,7 @@
     permissions: "{{ org_admin_permissions }}"
     state: present
     controller_host: "{{ aap_url }}"
-    controller_username: "{{ aap_username }}"
+    controller_username: "admin"
     controller_password: "{{ aap_password }}"
     validate_certs: False
   loop: "{{ aap_organizations }}"
