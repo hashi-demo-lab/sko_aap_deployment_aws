@@ -11,7 +11,7 @@
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
       gateway_validate_certs: false
-      is_superuser: true
+      is_superuser: false
     loop: "{{ aap_organizations }}"
     register: created_users
 
