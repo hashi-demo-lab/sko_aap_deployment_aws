@@ -1,0 +1,12 @@
+- name: Create Organization Admin Role
+  ansible.controller.role:
+    name: org_admin_role
+    organization: "{{ item.name }}"
+    description: "Full access within organization boundary"
+    permissions: "{{ org_admin_permissions }}"
+    state: present
+    controller_host: "{{ aap_url }}"
+    controller_username: "{{ aap_username }}"
+    controller_password: "{{ aap_password }}"
+    validate_certs: False
+  loop: "{{ aap_organizations }}"
