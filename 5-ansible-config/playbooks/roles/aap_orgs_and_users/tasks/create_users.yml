@@ -6,7 +6,7 @@
   - name: create user 
     ansible.platform.user:
       username: "{{ item.name }}_admin"
-      password: foobarbaz
+      password: "{{ app_org_admin_password }}"
       gateway_hostname: "{{ aap_url }}"
       gateway_username: "admin"
       gateway_password: "{{ aap_password }}"
