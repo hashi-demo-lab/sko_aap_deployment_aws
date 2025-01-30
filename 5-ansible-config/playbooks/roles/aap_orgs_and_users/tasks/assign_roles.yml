@@ -1,6 +1,7 @@
 - name: Give users organization admin role
   ansible.platform.role_user_assignment:
     role_definition: Organization Admin
+    object_id: "{{org_map[item.name]}}"
     user: "{{ item.name }}_admin"
     state: present
     gateway_hostname: "{{ aap_url }}"
