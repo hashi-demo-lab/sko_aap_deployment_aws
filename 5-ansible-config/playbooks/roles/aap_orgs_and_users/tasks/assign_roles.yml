@@ -2,7 +2,7 @@
   ansible.controller.role:
     users: 
     - "{{ item.name }}_admin"
-    role: "Organization Admin"
+    role: "admin"
     organizations: 
     - "{{ item.name }}"
     state: present
