@@ -9,32 +9,6 @@ vault_url: "https://your-vault-instance.com"
 vault_ssh_mount_point: "ssh"  # Default SSH secrets engine mount point
 vault_ssh_role: "aap"  # Role for SSH signed certificates
 
-
-org_admin_permissions:
-- "delete_job_template"
-- "execute_job_template"
-- "read_job_template"
-- "create_job_template"
-- "edit_job_template"
-- "delete_project"
-- "update_project"
-- "read_project"
-- "create_project"
-- "edit_project"
-- "read_inventory"
-- "create_inventory"
-- "edit_inventory"
-- "delete_inventory"
-- "read_credential"
-- "create_credential"
-- "edit_credential"
-- "delete_credential"
-- "read_workflow"
-- "create_workflow"
-- "edit_workflow"
-- "delete_workflow"
-
-
 # Organizations and Users
 aap_organizations:
 - name: terraformtitans
@@ -157,48 +131,3 @@ aap_organizations:
 # - name: pipelinepiglins
 #   state: exists
 #   namespace: "pipelinepiglins"
-
-
-
-
-# terraformtitans
-# vaultvillagers
-# consulcreepers
-# nomadnethers
-# boundaryblazes
-# waypointwithers
-# packerpiglins
-# diamonddevops
-# redstonerunners
-# vagrantvexes
-# obsidianoperators
-# endermanengineers
-# cloudguards
-# cloudcrafters
-# pipelinepillagers
-# terraformtowers
-# statestorrageslimes
-# moduleminers
-# sentinelshulkers
-# resourceravagers
-# configzombies
-# secretskeletons
-# registryraiders
-# clustercrystals
-# chaincraft
-# netherdrakes
-# stackspiders
-# swiftaxols
-# provisionphantoms
-# platformpandas
-# networknetherite
-# securitystriders
-# orchaminers
-# containercopper
-# databasedrowned
-# servicesilverfish
-# policyparrots
-# meshmagma
-# dockerdolphins
-# pipelinepiglins
-
