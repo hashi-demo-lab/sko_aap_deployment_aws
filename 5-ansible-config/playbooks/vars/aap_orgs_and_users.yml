@@ -26,108 +26,108 @@ aap_organizations:
 - name: boundaryblazes
   state: exists
   namespace: "boundaryblazes"
-# - name: waypointwithers
-#   state: exists
-#   namespace: "waypointwithers"
-# - name: packerpiglins
-#   state: exists
-#   namespace: "packerpiglins"
-# - name: diamonddevops
-#   state: exists
-#   namespace: "diamonddevops"
-# - name: redstonerunners
-#   state: exists
-#   namespace: "redstonerunners"
-# - name: vagrantvexes
-#   state: exists
-#   namespace: "vagrantvexes"
-# - name: obsidianoperators
-#   state: exists
-#   namespace: "obsidianoperators"
-# - name: endermanengineers
-#   state: exists
-#   namespace: "endermanengineers"
-# - name: cloudguards
-#   state: exists
-#   namespace: "cloudguards"
-# - name: cloudcrafters
-#   state: exists
-#   namespace: "cloudcrafters"
-# - name: pipelinepillagers
-#   state: exists
-#   namespace: "pipelinepillagers"
-# - name: terraformtowers
-#   state: exists
-#   namespace: "terraformtowers"
-# - name: statestorrageslimes
-#   state: exists
-#   namespace: "statestorrageslimes"
-# - name: moduleminers
-#   state: exists
-#   namespace: "moduleminers"
-# - name: sentinelshulkers
-#   state: exists
-#   namespace: "sentinelshulkers"
-# - name: resourceravagers
-#   state: exists
-#   namespace: "resourceravagers"
-# - name: configzombies
-#   state: exists
-#   namespace: "configzombies"
-# - name: secretskeletons
-#   state: exists
-#   namespace: "secretskeletons"
-# - name: registryraiders
-#   state: exists
-#   namespace: "registryraiders"
-# - name: clustercrystals
-#   state: exists
-#   namespace: "clustercrystals"
-# - name: chaincraft
-#   state: exists
-#   namespace: "chaincraft"
-# - name: netherdrakes
-#   state: exists
-#   namespace: "netherdrakes"
-# - name: stackspiders
-#   state: exists
-#   namespace: "stackspiders"
-# - name: swiftaxols
-#   state: exists
-#   namespace: "swiftaxols"
-# - name: provisionphantoms
-#   state: exists
-#   namespace: "provisionphantoms"
-# - name: platformpandas
-#   state: exists
-#   namespace: "platformpandas"
-# - name: networknetherite
-#   state: exists
-#   namespace: "networknetherite"
-# - name: securitystriders
-#   state: exists
-#   namespace: "securitystriders"
-# - name: orchaminers
-#   state: exists
-#   namespace: "orchaminers"
-# - name: containercopper
-#   state: exists
-#   namespace: "containercopper"
-# - name: databasedrowned
-#   state: exists
-#   namespace: "databasedrowned"
-# - name: servicesilverfish
-#   state: exists
-#   namespace: "servicesilverfish"
-# - name: policyparrots
-#   state: exists
-#   namespace: "policyparrots"
-# - name: meshmagma
-#   state: exists
-#   namespace: "meshmagma"
-# - name: dockerdolphins
-#   state: exists
-#   namespace: "dockerdolphins"
-# - name: pipelinepiglins
-#   state: exists
-#   namespace: "pipelinepiglins"
+- name: waypointwithers
+  state: exists
+  namespace: "waypointwithers"
+- name: packerpiglins
+  state: exists
+  namespace: "packerpiglins"
+- name: diamonddevops
+  state: exists
+  namespace: "diamonddevops"
+- name: redstonerunners
+  state: exists
+  namespace: "redstonerunners"
+- name: vagrantvexes
+  state: exists
+  namespace: "vagrantvexes"
+- name: obsidianoperators
+  state: exists
+  namespace: "obsidianoperators"
+- name: endermanengineers
+  state: exists
+  namespace: "endermanengineers"
+- name: cloudguards
+  state: exists
+  namespace: "cloudguards"
+- name: cloudcrafters
+  state: exists
+  namespace: "cloudcrafters"
+- name: pipelinepillagers
+  state: exists
+  namespace: "pipelinepillagers"
+- name: terraformtowers
+  state: exists
+  namespace: "terraformtowers"
+- name: statestorrageslimes
+  state: exists
+  namespace: "statestorrageslimes"
+- name: moduleminers
+  state: exists
+  namespace: "moduleminers"
+- name: sentinelshulkers
+  state: exists
+  namespace: "sentinelshulkers"
+- name: resourceravagers
+  state: exists
+  namespace: "resourceravagers"
+- name: configzombies
+  state: exists
+  namespace: "configzombies"
+- name: secretskeletons
+  state: exists
+  namespace: "secretskeletons"
+- name: registryraiders
+  state: exists
+  namespace: "registryraiders"
+- name: clustercrystals
+  state: exists
+  namespace: "clustercrystals"
+- name: chaincraft
+  state: exists
+  namespace: "chaincraft"
+- name: netherdrakes
+  state: exists
+  namespace: "netherdrakes"
+- name: stackspiders
+  state: exists
+  namespace: "stackspiders"
+- name: swiftaxols
+  state: exists
+  namespace: "swiftaxols"
+- name: provisionphantoms
+  state: exists
+  namespace: "provisionphantoms"
+- name: platformpandas
+  state: exists
+  namespace: "platformpandas"
+- name: networknetherite
+  state: exists
+  namespace: "networknetherite"
+- name: securitystriders
+  state: exists
+  namespace: "securitystriders"
+- name: orchaminers
+  state: exists
+  namespace: "orchaminers"
+- name: containercopper
+  state: exists
+  namespace: "containercopper"
+- name: databasedrowned
+  state: exists
+  namespace: "databasedrowned"
+- name: servicesilverfish
+  state: exists
+  namespace: "servicesilverfish"
+- name: policyparrots
+  state: exists
+  namespace: "policyparrots"
+- name: meshmagma
+  state: exists
+  namespace: "meshmagma"
+- name: dockerdolphins
+  state: exists
+  namespace: "dockerdolphins"
+- name: pipelinepiglins
+  state: exists
+  namespace: "pipelinepiglins"
