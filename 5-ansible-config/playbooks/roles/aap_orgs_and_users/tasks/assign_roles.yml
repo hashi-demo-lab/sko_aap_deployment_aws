@@ -1,13 +1,11 @@
-- name: Create Organization Admin Role
-  ansible.controller.role:
-    users: 
-    - "{{ item.name }}_admin"
-    role: "admin"
-    organizations: 
-    - "{{ item.name }}"
+- name: Give users organization admin role
+  ansible.platform.role_user_assignment:
+    role_definition: Organization Admin
+    object_id: 32
+    user: "{{ item.name }}_admin"
     state: present
-    controller_host: "{{ aap_url }}"
-    controller_username: "admin"
-    controller_password: "{{ aap_password }}"
-    validate_certs: False
+    gateway_hostname: "{{ aap_url }}"
+    gateway_username: "admin"
+    gateway_password: "{{ aap_password }}"
+    gateway_validate_certs: false
   loop: "{{ aap_organizations }}"
