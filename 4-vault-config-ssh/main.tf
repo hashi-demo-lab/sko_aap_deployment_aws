@@ -10,7 +10,3 @@ module "onboarding-aap-orgs" {
   for_each = var.oraganizations
   namespace = each.key
 }
-
-resource "vault_auth_backend" "userpass" {
-  type = "userpass"
-}
