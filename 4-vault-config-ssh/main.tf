@@ -8,5 +8,10 @@ module "onboarding-aap-orgs" {
   source = "./modules/onboarding-aap-orgs"
 
   for_each = var.oraganizations
+
   namespace = each.key
+
+  depends_on = [ 
+    vault_namespace.oraganizations 
+  ]
 }
