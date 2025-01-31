@@ -8,7 +8,7 @@
 #   type        = string
 # }
 
-variable "vault_child_namespaces" {
+variable "oraganizations" {
   type = set(string)
   default = [
     "terraformtitans",

@@ -7,6 +7,10 @@ locals {
 module "onboarding-aap-orgs" {
   source = "./modules/onboarding-aap-orgs"
 
-  for_each = var.vault_child_namespaces
+  for_each = var.oraganizations
   namespace = each.key
+}
+
+resource "vault_auth_backend" "userpass" {
+  type = "userpass"
 }
