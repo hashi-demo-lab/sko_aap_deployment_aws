@@ -10,6 +10,10 @@ resource "vault_ssh_secret_backend_ca" "this" {
 	generate_signing_key = true
 
   namespace = var.namespace
+
+  depends_on = [ 
+    vault_mount.ssh
+  ]
 }
 
 resource "vault_ssh_secret_backend_role" "this" {
