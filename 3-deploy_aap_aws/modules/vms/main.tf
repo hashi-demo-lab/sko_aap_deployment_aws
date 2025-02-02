@@ -30,6 +30,13 @@ resource "aws_instance" "aap_infrastructure_vm" {
     },
     var.persistent_tags
   )
+
+  #ignore keyname changes
+  lifecycle {
+    ignore_changes = [key_name]
+  }
+
+
 }
 
 resource "terraform_data" "aap_infrastructure_sshkey" {
