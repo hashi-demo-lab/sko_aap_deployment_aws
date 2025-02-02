@@ -41,3 +41,4 @@ terraform.rc
 *.tmp
 
 **/temp.txt
+**/.tfvars
