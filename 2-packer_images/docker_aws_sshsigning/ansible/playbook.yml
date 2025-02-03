@@ -1,4 +1,4 @@
-- name: Ansible Automation Platform
+- name: Minecraft Install with Vault SSH prereqs
   hosts: all
   become: true
   gather_facts: false
