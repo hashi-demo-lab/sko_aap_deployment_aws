@@ -3,12 +3,6 @@ variable "deployment_id" {
   type = string
 }
 
-variable "aws_vpc_cidr" {
-  type = string
-  description = "The CIDR block for the VPC"
-  default = "10.200.0.0/16"
-}
-
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string
