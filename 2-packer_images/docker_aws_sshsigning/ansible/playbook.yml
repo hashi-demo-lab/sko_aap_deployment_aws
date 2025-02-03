@@ -1,0 +1,10 @@
+- name: Ansible Automation Platform
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+
+    - name: Include docker tasks
+      include_tasks: docker.yml
+    - name: Include vault tasks
+      include_tasks: vault_ssh.yml
