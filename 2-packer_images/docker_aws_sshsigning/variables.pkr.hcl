@@ -38,7 +38,7 @@ variable "region" {
 }
 
 variable "ssh_username" {
-  default     = "ec2-user"
+  default     = "ubuntu"
   description = "The SSH username to use for the builder"
   type        = string
 }
