@@ -3,11 +3,14 @@
   become: true
   gather_facts: false
   tasks:
+    - name: "Install the community.docker collection"
+        ansible.builtin.command:
+          cmd: ansible-galaxy collection install community.docker
     - name: "Start docker container"
-      docker_container:
-        name: my-container
-        image: "{{ docker_image }}"
-        state: started
-        ports:
-          - "80:80"
-        restart_policy: unless-stopped
+        community.docker.docker_container:
+          name: my-container
+          image: "{{ docker_image }}"
+          state: started
+          ports:
+            - "80:80"
+          restart_policy: unless-stopped
