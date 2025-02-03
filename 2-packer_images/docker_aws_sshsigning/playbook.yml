@@ -2,29 +2,33 @@
   hosts: all
   become: true
   gather_facts: true
-
   tasks:
-  
-  - name: Add osquery repo key
-    get_url:
-      url: https://pkg.osquery.io/deb/pubkey.gpg
-      dest: /usr/share/keyrings/osquery.asc
-      mode: 0644
+    - name: Add osquery repo key
+      get_url:
+        url: https://pkg.osquery.io/deb/pubkey.gpg
+        dest: /usr/share/keyrings/osquery.asc
+        mode: 0644
 
-  - name: Add osquery repository
-    apt_repository:
-      repo: deb [signed-by=/usr/share/keyrings/osquery.asc] https://pkg.osquery.io/deb deb main
-      state: present
-      mode: 0666
+    - name: Add osquery repository
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/osquery.asc] https://pkg.osquery.io/deb deb main
+        state: present
+        mode: 0666
 
-  - name: Add docker repo key
-    get_url:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      dest: /usr/share/keyrings/docker-archive-keyring.asc
-      mode: 0644
+    - name: Add docker repo key
+      get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /usr/share/keyrings/docker-archive-keyring.asc
+        mode: 0644
 
-  - name: Add docker repository
-    apt_repository:
-      repo: deb [signed-by=/usr/share/keyrings/docker-archive-keyring.asc] https://download.docker.com/linux/ubuntu jammy stable
-      state: present
-      mode: 0666
+    - name: Add docker repository
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/docker-archive-keyring.asc] https://download.docker.com/linux/ubuntu jammy stable
+        state: present
+        mode: 0666
+
+    - name: Add HCP Vault SSH signing public certificate
+      get_url:
+        url: https:skoaap-public-vault-8683511a.d19fbab7.z1.hashicorp.cloud:8200/v1/ssh/public_key
+        dest: /tmp/ssh_ca.d/hcp-vault-ca-keys.pem
+        mode: 0644
