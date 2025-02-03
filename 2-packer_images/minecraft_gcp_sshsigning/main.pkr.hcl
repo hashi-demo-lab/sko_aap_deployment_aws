@@ -69,6 +69,7 @@ build {
       "ANSIBLE_NOCOWS=1",
       "VAULT_NAMESPACE=${var.vault_namespace}",
       "VAULT_URL=${var.vault_url}",
+      "ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3",
     ]
 
     extra_arguments = [
