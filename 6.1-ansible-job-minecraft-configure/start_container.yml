@@ -1,18 +1,23 @@
-- name: Ansible Automation Platform
+---
+- name: Update whitelist.conf with unique blocks
   hosts: all
-  become: true
-  gather_facts: false
+  become: yes
+  vars:
+    whitelist_users:
+      - "username1"
+      - "username2"
+      - "username3"
   tasks:
-    - name: Start Docker container
-      ansible.builtin.command:
-        cmd: >
-          docker run -d --name {{ docker_image }}
-          -p 80:80
-          --restart unless-stopped
-      args:
-        chdir: /tmp  # Optional: Change working directory if needed
-      register: docker_run_result
-      
-    - name: Debug Docker run output
-      ansible.builtin.debug:
-        var: docker_run_result.stdout
+    - name: Ensure whitelist.conf exists
+      file:
+        path: /etc/minecraft/whitelist.conf
+        state: touch
+
+    - name: Add users to whitelist.conf (if not already present)
+      blockinfile:
+        path: /etc/minecraft/whitelist.conf
+        block: |
+          {{ item }}
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: {{ item }}"
+        create: yes
+      loop: "{{ whitelist_users }}"
