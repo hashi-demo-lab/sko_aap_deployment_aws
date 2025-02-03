@@ -11,7 +11,7 @@ resource "vault_generic_endpoint" "userpass" {
   data_json = <<EOT
 {
   "policies": ["${each.key}"],
-  "password": "Hashicorp123!"
+  "password": "${var.vault_password}"
 }
 EOT
 

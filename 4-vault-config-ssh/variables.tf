@@ -56,3 +56,7 @@ variable "oraganizations" {
     "testorgc",
   ]
 }
+
+variable "vault_password" {
+  type = string
+}
