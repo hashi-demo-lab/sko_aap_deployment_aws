@@ -1,0 +1,12 @@
+---
+- name: Deploy container
+  hosts: all
+  tasks:
+    - name: Start docker container
+      docker_container:
+        name: my-container
+        image: {{ docker image }}
+        state: started
+        ports:
+          - "80:80"
+        restart_policy: unless-stopped
