@@ -5,11 +5,11 @@
   collections:
     - community.docker
   tasks:
-  - name: "Start docker container"
-    community.docker.docker_container:
-      name: my-container
-      image: "{{ docker_image }}"
-      state: started
-      ports:
-        - "80:80"
-      restart_policy: unless-stopped
+    - name: "Start docker container"
+        community.docker.docker_container:
+          name: my-container
+          image: "{{ docker_image }}"
+          state: started
+          ports:
+            - "80:80"
+          restart_policy: unless-stopped
