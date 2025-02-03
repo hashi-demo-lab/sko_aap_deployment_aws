@@ -1,11 +1,12 @@
----
-- name: Deploy container
+- name: Ansible Automation Platform
   hosts: all
+  become: true
+  gather_facts: false
   tasks:
-    - name: Start docker container
+    - name: "Start docker container"
       docker_container:
         name: my-container
-        image: {{ docker image }}
+        image: "{{ docker_image }}"
         state: started
         ports:
           - "80:80"
