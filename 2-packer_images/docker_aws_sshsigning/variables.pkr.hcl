@@ -5,7 +5,7 @@ variable "ami_name" {
 }
 
 variable "ami_owner" {
-  default     = "309956199498"
+  default     = "099720109477"
   description = "The owner of the AMI to use as a base (Default: Amazon)"
   type        = string
 }
