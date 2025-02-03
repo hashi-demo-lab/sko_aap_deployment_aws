@@ -54,7 +54,7 @@ build {
   }
 
   provisioner "ansible" {
-    playbook_file = "${path.cwd}/ansible/playbook.yaml"
+    playbook_file = "${path.cwd}/ansible/playbook.yml"
 
     ansible_env_vars = [
       "ANSIBLE_DEPRECATION_WARNINGS=False",
