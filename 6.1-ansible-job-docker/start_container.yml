@@ -8,10 +8,9 @@
     - name: Start Docker container
       ansible.builtin.command:
         cmd: >
-          docker run -d --name {{ container_name }}
+          docker run -d --name {{ docker_image }}
           -p 80:80
           --restart unless-stopped
-          {{ docker_image }}
       args:
         chdir: /tmp  # Optional: Change working directory if needed
       register: docker_run_result
