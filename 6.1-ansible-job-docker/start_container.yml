@@ -5,11 +5,17 @@
   collections:
     - community.docker
   tasks:
-    - name: "Start docker container"
-        community.docker.docker_container:
-          name: my-container
-          image: "{{ docker_image }}"
-          state: started
-          ports:
-            - "80:80"
-          restart_policy: unless-stopped
+    - name: Start Docker container
+      ansible.builtin.command:
+        cmd: >
+          docker run -d --name {{ container_name }}
+          -p 80:80
+          --restart unless-stopped
+          {{ docker_image }}
+      args:
+        chdir: /tmp  # Optional: Change working directory if needed
+      register: docker_run_result
+      
+    - name: Debug Docker run output
+      ansible.builtin.debug:
+        var: docker_run_result.stdout
