@@ -100,4 +100,9 @@ resource "aws_security_group" "aap_infrastructure_sg" {
     },
     local.persistent_tags
   )
+
+  #ignore changes names
+  lifecycle {
+    ignore_changes = [name]
+  }
 }

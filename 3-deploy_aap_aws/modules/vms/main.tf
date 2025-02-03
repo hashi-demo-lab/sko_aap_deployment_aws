@@ -33,7 +33,7 @@ resource "aws_instance" "aap_infrastructure_vm" {
 
   #ignore keyname changes
   lifecycle {
-    ignore_changes = [key_name]
+    ignore_changes = all
   }
 
 

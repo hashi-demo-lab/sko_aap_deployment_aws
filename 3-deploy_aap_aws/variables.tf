@@ -256,3 +256,9 @@ variable "inventory_revision" {
   type = string
   default = "1"
 }
+
+variable "public_subnet_id" {
+  description = "The public subnet IDs"
+  type = string
+  default = null
+}
