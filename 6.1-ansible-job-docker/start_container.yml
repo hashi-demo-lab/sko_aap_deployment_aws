@@ -2,11 +2,9 @@
   hosts: all
   become: true
   gather_facts: false
+  collections:
+    - community.docker
   tasks:
-  - name: "Install the community.docker collection"
-    ansible.builtin.command:
-      cmd: ansible-galaxy collection install community.docker
-
   - name: "Start docker container"
     community.docker.docker_container:
       name: my-container
