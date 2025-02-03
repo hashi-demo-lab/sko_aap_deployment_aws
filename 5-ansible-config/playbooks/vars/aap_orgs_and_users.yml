@@ -3,7 +3,7 @@
 aap_url: "https://44.210.128.100"
 
 # Hashicorp Vault Public URL
-vault_url: "https://your-vault-instance.com"
+vault_url: "https://skoaap-public-vault-8683511a.d19fbab7.z1.hashicorp.cloud:8200"
 
 # SSH Secrets Engine Configuration
 vault_ssh_mount_point: "ssh"  # Default SSH secrets engine mount point
