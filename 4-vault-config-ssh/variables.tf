@@ -59,4 +59,5 @@ variable "oraganizations" {
 
 variable "vault_password" {
   type = string
+  default = "Hashicorp123!sko2025"
 }
