@@ -32,15 +32,3 @@
         groups: docker
         append: yes
       become: true
-
-      # - name: Add osquery repo key
-      #   get_url:
-      #     url: https://pkg.osquery.io/deb/pubkey.gpg
-      #     dest: /usr/share/keyrings/osquery.asc
-      #     mode: 0644
-
-      # - name: Add osquery repository
-      #   apt_repository:
-      #     repo: deb [signed-by=/usr/share/keyrings/osquery.asc] https://pkg.osquery.io/deb deb main
-      #     state: present
-      #     mode: 0666
