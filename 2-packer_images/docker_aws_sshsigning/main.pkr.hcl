@@ -62,6 +62,7 @@ build {
       "ANSIBLE_NOCOLOR=True",
       "ANSIBLE_NOCOWS=1",
       "VAULT_NAMESPACE=${var.vault_namespace}",
+      "VAULT_URL=${var.vault_url}",
     ]
 
     extra_arguments = [

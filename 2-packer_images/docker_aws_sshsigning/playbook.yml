@@ -35,7 +35,7 @@
 
     - name: Add HCP Vault SSH signing public certificate
       get_url:
-        url: https://skoaap-public-vault-8683511a.d19fbab7.z1.hashicorp.cloud:8200/v1/ssh/public_key
+        url: "{{ lookup('env', 'VAULT_URL') }}/v1/ssh/public_key"
         headers: 
           X-Vault-Namespace: "admin/{{ lookup('env', 'VAULT_NAMESPACE') }}"
         dest: /tmp/ssh_ca.d/hcp-vault-ca-keys.pem
