@@ -1,0 +1,6 @@
+- name: Ansible Automation Platform
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
