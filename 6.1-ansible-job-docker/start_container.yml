@@ -2,8 +2,6 @@
   hosts: all
   become: true
   gather_facts: false
-  collections:
-    - community.docker
   tasks:
     - name: Start Docker container
       ansible.builtin.command:
