@@ -55,7 +55,6 @@ build {
 
   provisioner "ansible" {
     playbook_file = "playbook.yml"
-    sftp_command  = "/usr/libexec/openssh/sftp-server -e"
 
     ansible_env_vars = [
       "ANSIBLE_DEPRECATION_WARNINGS=False",
