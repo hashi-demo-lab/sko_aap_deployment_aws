@@ -28,7 +28,7 @@ source "amazon-ebs" "img" {
   ami_name      = local.ami_name
   instance_type = var.instance_type
   region        = var.region
-  source_ami    = data.amazon-ami.rhel9.id
+  source_ami    = data.amazon-ami.ubuntu.id
   ssh_username  = var.ssh_username
   associate_public_ip_address = true
   # subnet_id = var.public_subnet_id
@@ -62,8 +62,6 @@ build {
       "ANSIBLE_HOST_KEY_CHECKING=False",
       "ANSIBLE_NOCOLOR=True",
       "ANSIBLE_NOCOWS=1",
-      "RHN_USERNAME=${var.rhn_username}",
-      "RHN_PASSWORD=${var.rhn_password}"
     ]
 
     extra_arguments = [
