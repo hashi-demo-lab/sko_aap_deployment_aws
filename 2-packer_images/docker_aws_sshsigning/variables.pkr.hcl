@@ -53,3 +53,11 @@ variable "ssh_username" {
 #   type        = string
 # }
 
+
+# vault namespace
+variable "vault_namespace" {
+  default     = "terraformtitans"
+  description = "The namespace to use for the vault"
+  type        = string
+}
+
