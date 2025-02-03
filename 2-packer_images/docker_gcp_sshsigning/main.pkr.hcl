@@ -1,8 +1,8 @@
 packer {
   required_plugins {
-    amazon = {
-      version = "~> 1"
-      source  = "github.com/hashicorp/amazon"
+    googlecompute = {
+      version = ">= 0.0.1"
+      source  = "github.com/hashicorp/googlecompute"
     }
     ansible = {
       version = "~> 1"
@@ -12,35 +12,41 @@ packer {
   required_version = "~> 1.11"
 }
 
-data "amazon-ami" "ubuntu" {
-  region      = var.region
-  filters     = var.ami_filter
-  most_recent = true
-  owners      = [var.ami_owner]
-}
-
 locals {
   timestamp = formatdate("YYYY-MM-DD_hh-mm-ss", timestamp())
   ami_name  = "${var.ami_name}_${local.timestamp}"
 }
 
-source "amazon-ebs" "img" {
-  ami_name      = local.ami_name
-  instance_type = var.instance_type
-  region        = var.region
-  source_ami    = data.amazon-ami.ubuntu.id
-  ssh_username  = var.ssh_username
-  associate_public_ip_address = true
-  # subnet_id = var.public_subnet_id
-  # vpc_id = var.vpc_id
+source "googlecompute" "ubuntu" {
+  image_name        = "packer-${var.name}-${local.timestamp}"
+  image_description = "Ubuntu 22.04 LTS remote development server."
+  image_family      = var.name
+
+  project_id = var.gcp_project_id
+  zone       = var.gce_zone
+  network    = "default"
+
+  source_image_family     = var.gce_source_image_family
+  source_image_project_id = [var.gce_source_image_project_id]
+
+  scopes = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/compute",
+    "https://www.googleapis.com/auth/devstorage.full_control"
+  ]
+
+  ssh_username    = var.ssh_username
+  use_internal_ip = false
+
+  tags = [var.name]
 }
 
 build {
-  name = var.ami_name
+  sources = ["source.googlecompute.ubuntu"]
 
   hcp_packer_registry {
-    bucket_name = var.ami_name
-    description = "Base RHEL 9 AMI with Ansible Automation Platform installer package preloaded."
+    bucket_name = source.googlecompute.ubuntu.image_name
+    description = "GCP Ubuntu 2204 AMI with docker and Vault ssh signing prereqs"
 
     bucket_labels = {
       owner   = "SKO"

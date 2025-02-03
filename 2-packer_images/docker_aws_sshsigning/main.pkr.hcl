@@ -40,7 +40,7 @@ build {
 
   hcp_packer_registry {
     bucket_name = var.ami_name
-    description = "Base RHEL 9 AMI with Ansible Automation Platform installer package preloaded."
+    description = "Ubuntu 2204 AWS AMI with docker and Vault ssh signing prereqs"
 
     bucket_labels = {
       owner   = "SKO"
