@@ -50,6 +50,9 @@ variable "oraganizations" {
     "policyparrots",
     "meshmagma",
     "dockerdolphins",
-    "pipelinepiglins"
+    "pipelinepiglins",
+    "testorga",
+    "testorgb",
+    "testorgc",
   ]
 }

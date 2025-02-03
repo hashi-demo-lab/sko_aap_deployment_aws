@@ -134,3 +134,13 @@ aap_organizations:
 - name: djoo
   state: exists
   namespace: "djoo"
+- name: testorga
+  state: exists
+  namespace: "testorga"
+- name: testorgb
+  state: exists
+  namespace: "testorgb"
+- name: testorgc
+  state: exists
+  namespace: "testorgc"
+
