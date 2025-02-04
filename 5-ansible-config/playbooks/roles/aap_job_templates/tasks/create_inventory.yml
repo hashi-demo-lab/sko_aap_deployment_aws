@@ -3,11 +3,12 @@
   ansible.controller.inventory:
     name: "Demo Inventory"
     state: "present"
+    organization: "{{ item.name }}"
     controller_host: "{{ aap_url }}"                    # URL of your AAP instance
     controller_username: "admin"                        # AAP username
     controller_password: "{{ aap_password }}"           # AAP password
     validate_certs: false
   loop: "{{ aap_organizations }}"
-  register: created_job_templates
+  register: created_inventory
 
 
