@@ -1,0 +1,3 @@
+---
+- name: Include tasks to configure Job Templates
+  include_tasks: configure_job_templates.yml
