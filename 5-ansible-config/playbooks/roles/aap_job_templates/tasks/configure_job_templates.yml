@@ -1,0 +1,17 @@
+- name: Create Minecraft job templates
+  job_template:
+    name: "minecraft_whitelist"
+    job_type: "run"
+    organization: "{{ item.name }}"
+    inventory: "Local"
+    project: "{{ projects[0].name }}"
+    playbook: "6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml"
+    credentials:
+      - "minecraft_ssh_credentials"
+    state: "present"
+    controller_host: "{{ aap_url }}"                    # URL of your AAP instance
+    controller_username: "admin"                        # AAP username
+    controller_password: "{{ aap_password }}"           # AAP password
+    validate_certs: false
+  loop: "{{ aap_organizations }}"
+  register: created_job_templates
