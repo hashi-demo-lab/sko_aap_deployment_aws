@@ -8,3 +8,18 @@ resource "vault_auth_backend" "approle" {
   
   namespace = var.namespace
 }
+
+resource "vault_approle_auth_backend_role" "this" {
+  backend         = vault_auth_backend.approle.path
+  role_name       = "aap"
+  token_policies  = ["aap"]
+
+  namespace = var.namespace
+}
+
+resource "vault_approle_auth_backend_role_secret_id" "this" {
+  backend   = vault_auth_backend.approle.path
+  role_name = vault_approle_auth_backend_role.this.role_name
+
+  namespace = var.namespace
+}
