@@ -1,5 +1,5 @@
 - name: Create Minecraft job templates
-  job_template:
+  ansible.controller.job_template:
     name: "minecraft_whitelist"
     job_type: "run"
     organization: "{{ item.name }}"
