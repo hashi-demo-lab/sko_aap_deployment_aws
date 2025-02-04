@@ -11,4 +11,19 @@
   loop: "{{ aap_organizations }}"
   register: created_inventory
 
+ - name: Extract organization and inventory ID into a map
+   set_fact:
+    org_inventory_map: >-
+      {{
+        org_inventory_map | default({}) | combine({
+          item.item.name: item.json.id
+        })
+      }}
+   loop: "{{ created_inventory.results }}"
+   when: item.json is defined and item.json.id is defined
 
+- name: Display the organization-inventory map
+  debug:
+    msg: "{{ org_inventory_map }}"
+
+- name: Create AAP inventory group    
