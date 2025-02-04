@@ -1,0 +1,19 @@
+- name: Add projects to organizations
+  ansible.controller.project:
+    name: "{{ project.name }}"
+    description: "{{ project.description }}"
+    organization: "{{ organization.name }}"
+    scm_url: "{{ project.scm_url }}"
+    scm_type: "{{ project.scm_type }}"
+    scm_branch: "{{ project.scm_branch }}"
+    state: "{{ project.state }}"
+    controller_host: "{{ aap_url }}"                    # URL of your AAP instance
+    controller_username: "admin"                        # AAP username
+    controller_password: "{{ aap_password }}"           # AAP password
+  loop: "{{ aap_organizations }}"
+  loop_control:
+    loop_var: organization
+  vars:
+    project: "{{ item }}"
+  with_items: "{{ projects }}"
+  register: created_projects

@@ -144,3 +144,10 @@ aap_organizations:
   state: exists
   namespace: "testorgc"
 
+projects:
+  - name: "minecraft_config"
+    description: "Mindcraft configuration project"
+    state: exists
+    scm_type: "git"
+    scm_url: "https://github.com/hashi-demo-lab/sko_aap_deployment_aws"
+    scm_branch: "main"
