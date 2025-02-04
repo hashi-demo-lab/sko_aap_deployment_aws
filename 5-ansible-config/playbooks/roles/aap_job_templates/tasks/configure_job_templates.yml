@@ -5,7 +5,7 @@
     organization: "{{ item.name }}"
     inventory: "Demo Inventory"
     project: "{{ projects[0].name }}"
-    playbook: "6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml"
+    playbook: '6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml'
     credentials:
       - "minecraft_ssh_credentials"
     state: "present"
