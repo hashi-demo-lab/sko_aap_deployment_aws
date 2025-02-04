@@ -22,6 +22,6 @@
   loop: "{{ created_inventory.results }}"
   when: item.id is defined
 
-- name: Debug org_inventory_map
-  debug:
-    var: org_inventory_map
+# - name: Debug org_inventory_map
+#   debug:
+#     var: org_inventory_map
