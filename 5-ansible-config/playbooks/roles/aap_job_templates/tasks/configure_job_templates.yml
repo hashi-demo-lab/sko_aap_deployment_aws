@@ -3,7 +3,7 @@
     name: "minecraft_whitelist"
     job_type: "run"
     organization: "{{ item.name }}"
-    inventory: "Local"
+    inventory: "Demo Inventory"
     project: "{{ projects[0].name }}"
     playbook: "6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml"
     credentials:

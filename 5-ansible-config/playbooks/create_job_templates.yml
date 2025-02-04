@@ -1,5 +1,5 @@
 ---
-- name: Create organizations and users in AAP
+- name: Create Job templates in Organization
   hosts: localhost
   gather_facts: no
   vars_files:
