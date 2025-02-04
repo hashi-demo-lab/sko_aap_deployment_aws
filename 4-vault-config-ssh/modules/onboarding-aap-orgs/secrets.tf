@@ -6,5 +6,21 @@ resource "vault_mount" "kvv2" {
     type    = "kv-v2"
   }
   description = "kv-v2 secrets engine for the ${var.namespace} team"
+
+  namespace = var.namespace
+}
+
+resource "vault_kv_secret_v2" "sample1" {
+  mount                      = vault_mount.kvv2.path
+  name                       = "skofy26"
+  cas                        = 1
+  delete_all_versions        = true
+  data_json                  = jsonencode(
+  {
+    city  = "las vegas",
+    state = "nevada",
+  }
+  )
+
   namespace = var.namespace
 }
