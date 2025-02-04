@@ -11,9 +11,9 @@
   loop: "{{ aap_organizations }}"
   register: created_inventory
 
-- name: Debug created_inventory
-  debug:
-    var: created_inventory
+# - name: Debug created_inventory
+#   debug:
+#     var: created_inventory
 
 - name: Extract organization and inventory ID into a map
   set_fact:
@@ -21,3 +21,7 @@
       {{ org_inventory_map | default({}) | combine({ item.item.name: item.id | string }) }}
   loop: "{{ created_inventory.results }}"
   when: item.id is defined
+
+- name: Debug org_inventory_map
+  debug:
+    var: org_inventory_map
