@@ -131,9 +131,6 @@ aap_organizations:
 - name: pipelinepiglins
   state: exists
   namespace: "pipelinepiglins"
-- name: djoo
-  state: exists
-  namespace: "djoo"
 - name: testorga
   state: exists
   namespace: "testorga"
