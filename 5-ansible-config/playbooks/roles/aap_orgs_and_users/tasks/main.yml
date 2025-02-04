@@ -8,8 +8,5 @@
 - name: Include tasks to assign roles
   include_tasks: assign_roles.yml
 
-- name: Include tasks to configure Vault credentials
-  include_tasks: configure_vault_credentials.yml
-
 - name: Include tasks to create projects
   include_tasks: create_projects.yml
