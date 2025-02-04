@@ -8,7 +8,7 @@
     project: "{{ projects[0].name }}"
     playbook: '6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml'
     credentials:
-      - "minecraft_ssh_credentials"
+      - "{{ org_creds_map[item.name] }}"
     state: "present"
     controller_host: "{{ aap_url }}"                    # URL of your AAP instance
     controller_username: "admin"                        # AAP username
