@@ -54,6 +54,9 @@ variable "oraganizations" {
     "testorga",
     "testorgb",
     "testorgc",
+    "testorgd",
+    "testorge",
+    "testorgf",
   ]
 }
 

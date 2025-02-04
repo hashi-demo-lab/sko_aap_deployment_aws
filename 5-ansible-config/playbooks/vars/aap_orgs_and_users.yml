@@ -171,6 +171,16 @@ aap_organizations:
 - name: testorgc
   state: exists
   namespace: "testorgc"
+- name: testorgd
+  state: exists
+  namespace: "testorgd"
+- name: testorge
+  state: exists
+  namespace: "testorge"
+- name: testorgf
+  state: exists
+  namespace: "testorgf"
+
 
 projects:
   - name: "minecraft_config"
