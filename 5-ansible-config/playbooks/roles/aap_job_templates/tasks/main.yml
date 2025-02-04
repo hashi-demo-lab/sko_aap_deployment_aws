@@ -1,3 +1,6 @@
 ---
+- name: Include tasks to configure Inventory
+  include_tasks: configure_inventory.yml
+
 - name: Include tasks to configure Job Templates
   include_tasks: configure_job_templates.yml
