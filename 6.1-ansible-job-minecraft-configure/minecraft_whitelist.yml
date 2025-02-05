@@ -2,16 +2,26 @@
 - name: Update whitelist.conf with unique blocks
   hosts: all
   vars:
-    whitelist_users:
-      - "username1"
-      - "username2"
-      - "username3"
+    minecraft_username:
+      - "user1"
+
   tasks:
+    - name: Fetch UUID from Mojang API
+      uri:
+        url: "https://api.mojang.com/users/profiles/minecraft/{{ minecraft_username }}"
+        method: GET
+        return_content: yes
+      register: mojang_response
+
+    - name: Extract UUID
+      set_fact:
+        mcuuid: "{{ mojang_response.json.id }}"
+
     - name: Ensure whitelist.conf exists
       ansible.builtin.file:
         path: /etc/minecraft/whitelist.conf
         state: touch
-        
+
     - name: Check if lock file exists
       ansible.builtin.stat:
         path: /etc/minecraft/whitelist.lock
@@ -27,12 +37,13 @@
         path: /etc/minecraft/whitelist.lock
         state: touch
       when: not lockfile.stat.exists
-
+    
     - name: Update the target file
       lineinfile:
         path: /etc/minecraft/whitelist.conf
-        line: "New content to add or update"
+        line: "{{mcuuid}}:{{whitelist_user}}"
         state: present
+      
     - name: Remove lock file
       file:
         path: /etc/minecraft/whitelist.lock
