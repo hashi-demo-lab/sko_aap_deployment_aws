@@ -180,7 +180,66 @@ aap_organizations:
 - name: testorgf
   state: exists
   namespace: "testorgf"
-
+- name: testorgg
+  state: exists
+  namespace: "testorgg"
+- name: testorgh
+  state: exists
+  namespace: "testorgh"
+- name: testorgi
+  state: exists
+  namespace: "testorgi"
+- name: testorgj
+  state: exists
+  namespace: "testorgj"
+- name: testorgk
+  state: exists
+  namespace: "testorgk"
+- name: testorgl
+  state: exists
+  namespace: "testorgl"
+- name: testorgm
+  state: exists
+  namespace: "testorgm"
+- name: testorgn
+  state: exists
+  namespace: "testorgn"
+- name: testorgo
+  state: exists
+  namespace: "testorgo"
+- name: testorgp
+  state: exists
+  namespace: "testorgp"
+- name: testorgq
+  state: exists
+  namespace: "testorgq"
+- name: testorgr
+  state: exists
+  namespace: "testorgr"
+- name: testorgs
+  state: exists
+  namespace: "testorgs"
+- name: testorgt
+  state: exists
+  namespace: "testorgt"
+- name: testorgu
+  state: exists
+  namespace: "testorgu"
+- name: testorgv
+  state: exists
+  namespace: "testorgv"
+- name: testorgw
+  state: exists
+  namespace: "testorgw"
+- name: testorgx
+  state: exists
+  namespace: "testorgx"
+- name: testorgy
+  state: exists
+  namespace: "testorgy"
+- name: testorgz
+  state: exists
+  namespace: "testorgz"
 
 projects:
   - name: "minecraft_config"
