@@ -32,7 +32,9 @@ resource "vault_kv_secret_v2" "aap" {
   delete_all_versions        = true
   data_json                  = jsonencode(
   {
-    ssh-unsigned-key  = tls_private_key.ssh-key.public_key_openssh,
+    org-username = "${var.namespace}_admin",
+    org-password = "${var.aap_admin_password}",
+    ssh-unsigned-key = tls_private_key.ssh-key.public_key_openssh,
   }
   )
 

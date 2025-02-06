@@ -83,3 +83,7 @@ variable "oraganizations" {
 variable "vault_password" {
   type = string
 }
+
+variable "aap_admin_password" {
+  type = string
+}

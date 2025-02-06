@@ -10,6 +10,7 @@ module "onboarding-aap-orgs" {
   for_each = var.oraganizations
 
   namespace = each.key
+  aap_admin_password = var.aap_admin_password
 
   depends_on = [ 
     vault_namespace.oraganizations 
