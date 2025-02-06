@@ -57,10 +57,29 @@ variable "oraganizations" {
     "testorgd",
     "testorge",
     "testorgf",
+    "testorgg",
+    "testorgh",
+    "testorgi",
+    "testorgj",
+    "testorgk",
+    "testorgl",
+    "testorgm",
+    "testorgn",
+    "testorgo",
+    "testorgp",
+    "testorgq",
+    "testorgr",
+    "testorgs",
+    "testorgt",
+    "testorgu",
+    "testorgv",
+    "testorgw",
+    "testorgx",
+    "testorgy",
+    "testorgz"
   ]
 }
 
 variable "vault_password" {
   type = string
-  default = "Hashicorp123!sko2025"
 }
