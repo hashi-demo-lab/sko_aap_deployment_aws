@@ -1,0 +1,3 @@
+---
+- name: Include tasks to configure Vault credentials
+  include_tasks: sync_project.yml
