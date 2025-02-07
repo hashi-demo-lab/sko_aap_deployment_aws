@@ -16,7 +16,7 @@ resource "vault_ssh_secret_backend_role" "this" {
 	backend                 = vault_mount.ssh.path
 	name                    = "aap"
 	allow_user_certificates = true
-  default_user            = "ec2-user"
+  default_user            = "packer"
   allowed_users           = "*"
   key_type                = "ca"
   ttl                     = "28800"
