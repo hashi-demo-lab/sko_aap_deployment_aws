@@ -5,6 +5,7 @@
     job_type: "run"
     organization: "{{ item.name }}"
     inventory: "{{ org_inventory_map[item.name] }}"
+    ask_inventory_on_launch: true
     project: "{{ projects[0].name }}"
     playbook: '6.1-ansible-job-minecraft-configure/minecraft_whitelist.yml'
     credentials:
