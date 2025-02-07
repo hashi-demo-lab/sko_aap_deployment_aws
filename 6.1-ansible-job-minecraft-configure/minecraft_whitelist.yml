@@ -1,5 +1,6 @@
 - name: Update whitelist.json with locking and retries
   hosts: all
+  become: true
   vars:
     minecraft_usernames:
       - "SheriffJackson"
