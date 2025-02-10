@@ -41,3 +41,17 @@ resource "vault_kv_secret_v2" "aap" {
 
   namespace = var.namespace
 }
+
+resource "vault_kv_secret_v2" "tavern_key" {
+  mount                      = vault_mount.kvv2.path
+  name                       = "tavern_key"
+  cas                        = 1
+  delete_all_versions        = true
+  data_json                  = jsonencode(
+  {
+    passphrase = "blackbeardlives",
+  }
+  )
+
+  namespace = var.namespace
+}
