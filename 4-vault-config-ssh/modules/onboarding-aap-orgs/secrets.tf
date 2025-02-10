@@ -35,7 +35,7 @@ resource "vault_kv_secret_v2" "aap" {
     org-username = "${var.namespace}_admin",
     org-password = "${var.aap_admin_password}",
     ssh-unsigned-public-key = tls_private_key.ssh-key.public_key_openssh,
-    ssh-unsigned-private-key = tls_private_key.ssh-key.private_key_pem,
+    ssh-unsigned-private-key = tls_private_key.ssh-key.private_key_openssh,
   }
   )
 
