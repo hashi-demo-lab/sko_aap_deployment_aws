@@ -8,7 +8,7 @@
 #   type        = string
 # }
 
-variable "oraganizations" {
+variable "organizations" {
   type = set(string)
   default = [
     "terraformtitans",

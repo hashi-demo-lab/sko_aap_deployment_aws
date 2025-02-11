@@ -1,5 +1,5 @@
 resource "vault_policy" "oraganizations" {
-  for_each = var.oraganizations
+  for_each = var.organizations
 
   name = each.key
 

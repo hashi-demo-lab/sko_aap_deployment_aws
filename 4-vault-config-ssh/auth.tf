@@ -3,7 +3,7 @@ resource "vault_auth_backend" "userpass" {
 }
 
 resource "vault_generic_endpoint" "userpass" {
-  for_each = var.oraganizations
+  for_each = var.organizations
 
   path                 = "auth/userpass/users/${each.key}"
   ignore_absent_fields = true

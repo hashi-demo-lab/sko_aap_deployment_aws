@@ -7,12 +7,12 @@ locals {
 module "onboarding-aap-orgs" {
   source = "./modules/onboarding-aap-orgs"
 
-  for_each = var.oraganizations
+  for_each = var.organizations
 
   namespace = each.key
   aap_admin_password = var.aap_admin_password
 
   depends_on = [ 
-    vault_namespace.oraganizations 
+    vault_namespace.organizations 
   ]
 }
