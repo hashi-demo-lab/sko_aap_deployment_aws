@@ -26,4 +26,6 @@ resource "vault_approle_auth_backend_role_secret_id" "this" {
 
 resource "vault_auth_backend" "this" {
   type = "userpass"
+
+  namespace = var.namespace
 }
