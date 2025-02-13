@@ -1,6 +1,6 @@
 - name: Update minecraft whitelist
   hosts: all
-  become: false
+  become: true
   vars:
     minecraft_usernames:
       - "SheriffJackson"
