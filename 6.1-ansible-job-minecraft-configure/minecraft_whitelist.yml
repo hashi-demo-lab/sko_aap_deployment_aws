@@ -29,11 +29,6 @@
             dest: /etc/minecraft/MinecraftOfflineUUID.java
             mode: '0644'
 
-        - name: Compile Java program
-          ansible.builtin.command:
-            cmd: javac /etc/minecraft/MinecraftOfflineUUID.java
-            creates: /etc/minecraft/MinecraftOfflineUUID.class
-
         - name: Generate UUIDs for whitelist
           ansible.builtin.command:
             cmd: java -jar /etc/minecraft/MinecraftOfflineUUID.java "{{ item }}"
