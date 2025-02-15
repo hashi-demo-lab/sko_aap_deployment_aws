@@ -36,7 +36,7 @@
 
         - name: Generate UUIDs for whitelist
           ansible.builtin.command:
-            cmd: javac -jar /etc/minecraft/MinecraftOfflineUUID.java "{{ item }}"
+            cmd: java -jar /etc/minecraft/MinecraftOfflineUUID.java "{{ item }}"
           loop: "{{ minecraft_usernames }}"
           register: java_responses
 
