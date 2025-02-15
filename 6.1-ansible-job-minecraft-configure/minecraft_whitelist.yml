@@ -4,6 +4,7 @@
   vars:
     minecraft_usernames:
       - "SheriffJackson"
+    lock_timeout: 60
   tasks:
     - block:
       - name: Create UUID tool
@@ -107,8 +108,9 @@
       
       - name: Reload the whitelist
         command: rcon-cli --password password whitelist reload 
-    always:
-      - name: Remove lock file
-        ansible.builtin.file:
-          path: /etc/minecraft/whitelist.lock
-          state: absent
+      always:
+        - name: Remove lock file
+          ansible.builtin.file:
+            path: /etc/minecraft/whitelist.lock
+            state: absent
+
